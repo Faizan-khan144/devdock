@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import "./styles.css";
 import {
   Activity,
-  ArrowLeftRight,
-  Braces,
   Check,
   ChevronRight,
-  Clipboard,
-  Code2,
   Command,
   Copy,
   Database,
@@ -17,11 +13,11 @@ import {
   FileDiff,
   FileJson,
   Fingerprint,
-  FlaskConical,
   Hash,
   KeyRound,
   LayoutDashboard,
   Link2,
+  MapPin,
   Menu,
   Moon,
   Palette,
@@ -38,51 +34,146 @@ import {
   Timer,
   Trash2,
   Type,
-  Wand2,
-  X,
-  Zap
+  UserRound,
+  X
 } from "lucide-react";
 
 const TOOL_GROUPS = [
   {
     title: "Workspace",
     items: [
-      { id: "overview", name: "Overview", icon: LayoutDashboard, description: "Your developer command center", keywords: "home dashboard workspace" },
-      { id: "timer", name: "Focus Timer", icon: Timer, description: "Focused development sessions", keywords: "pomodoro focus time" },
-      { id: "snippets", name: "Snippets", icon: FileCode2, description: "Save reusable code", keywords: "code snippets notes" }
+      {
+        id: "overview",
+        name: "Overview",
+        icon: LayoutDashboard,
+        description: "Your developer command center",
+        keywords: "home dashboard workspace"
+      },
+      {
+        id: "timer",
+        name: "Focus Timer",
+        icon: Timer,
+        description: "Focused development sessions",
+        keywords: "pomodoro focus time"
+      },
+      {
+        id: "snippets",
+        name: "Snippets",
+        icon: FileCode2,
+        description: "Save reusable code",
+        keywords: "code snippets notes"
+      }
     ]
   },
   {
     title: "Code",
     items: [
-      { id: "json", name: "JSON Toolkit", icon: FileJson, description: "Format, validate and transform JSON", keywords: "json format minify validate" },
-      { id: "jwt", name: "JWT Decoder", icon: KeyRound, description: "Inspect JWT headers and payloads", keywords: "jwt token decode auth" },
-      { id: "regex", name: "Regex Tester", icon: Regex, description: "Test regular expressions", keywords: "regex regexp pattern" },
-      { id: "diff", name: "Diff Checker", icon: FileDiff, description: "Compare two text blocks", keywords: "diff compare git changes" },
-      { id: "markdown", name: "Markdown", icon: Type, description: "Write and preview Markdown", keywords: "markdown md preview documentation" }
+      {
+        id: "json",
+        name: "JSON Toolkit",
+        icon: FileJson,
+        description: "Format, validate and transform JSON",
+        keywords: "json format minify validate"
+      },
+      {
+        id: "jwt",
+        name: "JWT Decoder",
+        icon: KeyRound,
+        description: "Inspect JWT headers and payloads",
+        keywords: "jwt token decode auth"
+      },
+      {
+        id: "regex",
+        name: "Regex Tester",
+        icon: Regex,
+        description: "Test regular expressions",
+        keywords: "regex regexp pattern"
+      },
+      {
+        id: "diff",
+        name: "Diff Checker",
+        icon: FileDiff,
+        description: "Compare two text blocks",
+        keywords: "diff compare git changes"
+      },
+      {
+        id: "markdown",
+        name: "Markdown",
+        icon: Type,
+        description: "Write and preview Markdown",
+        keywords: "markdown md preview documentation"
+      }
     ]
   },
   {
     title: "Data",
     items: [
-      { id: "base64", name: "Base64", icon: Database, description: "Encode and decode Base64", keywords: "base64 encode decode" },
-      { id: "url", name: "URL Toolkit", icon: Link2, description: "Encode, decode and inspect URLs", keywords: "url uri encode decode query" },
-      { id: "timestamp", name: "Timestamp", icon: Activity, description: "Convert Unix timestamps", keywords: "unix epoch date time" }
+      {
+        id: "base64",
+        name: "Base64",
+        icon: Database,
+        description: "Encode and decode Base64",
+        keywords: "base64 encode decode"
+      },
+      {
+        id: "url",
+        name: "URL Toolkit",
+        icon: Link2,
+        description: "Encode, decode and inspect URLs",
+        keywords: "url uri encode decode query"
+      },
+      {
+        id: "timestamp",
+        name: "Timestamp",
+        icon: Activity,
+        description: "Convert Unix timestamps",
+        keywords: "unix epoch date time"
+      }
     ]
   },
   {
     title: "Utilities",
     items: [
-      { id: "uuid", name: "UUID Generator", icon: Fingerprint, description: "Generate unique identifiers", keywords: "uuid guid identifier" },
-      { id: "hash", name: "Hash Generator", icon: Hash, description: "Generate cryptographic hashes", keywords: "hash sha256 sha512 crypto" },
-      { id: "password", name: "Password Generator", icon: ShieldCheck, description: "Generate secure passwords", keywords: "password security random" },
-      { id: "http", name: "HTTP Status", icon: Zap, description: "Look up HTTP status codes", keywords: "http status codes api" }
+      {
+        id: "uuid",
+        name: "UUID Generator",
+        icon: Fingerprint,
+        description: "Generate unique identifiers",
+        keywords: "uuid guid identifier"
+      },
+      {
+        id: "hash",
+        name: "Hash Generator",
+        icon: Hash,
+        description: "Generate cryptographic hashes",
+        keywords: "hash sha256 sha512 crypto"
+      },
+      {
+        id: "password",
+        name: "Password Generator",
+        icon: ShieldCheck,
+        description: "Generate secure passwords",
+        keywords: "password security random"
+      },
+      {
+        id: "http",
+        name: "HTTP Status",
+        icon: Activity,
+        description: "Look up HTTP status codes",
+        keywords: "http status codes api"
+      }
     ]
   },
   {
     title: "Design",
     items: [
-      { id: "colors", name: "Color Lab", icon: Palette, description: "Explore and convert colors", keywords: "color hex rgb design" }
+      {
+        id: "colors",
+        name: "Color Lab",
+        icon: Palette,
+        description: "Explore and convert colors",
+        keywords: "color hex rgb design"
+      }
     ]
   }
 ];
@@ -146,6 +237,21 @@ const handleChange = (event) => {
   }
 ];
 
+const DEFAULT_PROFILE = {
+  name: "Faizan Khan",
+  username: "faizan",
+  role: "Frontend Developer",
+  bio: "Building modern web experiences and developer tools.",
+  location: "Pakistan",
+  github: "https://github.com/Faizan-khan144",
+  linkedin: "",
+  portfolio: "https://faizan-khan144.github.io/devdock/",
+  avatar: "",
+  banner: "",
+  accent: "#4f8cff",
+  tech: ["HTML", "CSS", "JavaScript", "React", "Node.js", "MongoDB"]
+};
+
 function readStorage(key, fallback) {
   try {
     const value = localStorage.getItem(key);
@@ -155,15 +261,32 @@ function readStorage(key, fallback) {
   }
 }
 
+function getInitials(name) {
+  return name
+    .trim()
+    .split(/\s+/)
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase() || "DV";
+}
+
 function App() {
   const [activeTool, setActiveTool] = useState("overview");
   const [dark, setDark] = useState(true);
   const [search, setSearch] = useState("");
   const [commandOpen, setCommandOpen] = useState(false);
   const [mobileNav, setMobileNav] = useState(false);
-  const [favorites, setFavorites] = useState(() => readStorage("devdock-favorites", []));
-  const [recent, setRecent] = useState(() => readStorage("devdock-recent", []));
+  const [favorites, setFavorites] = useState(() =>
+    readStorage("devdock-favorites", [])
+  );
+  const [recent, setRecent] = useState(() =>
+    readStorage("devdock-recent", [])
+  );
   const [toast, setToast] = useState("");
+  const [profile, setProfile] = useState(() =>
+    readStorage("devdock-profile", DEFAULT_PROFILE)
+  );
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("devdock-theme");
@@ -179,16 +302,39 @@ function App() {
   }, [dark]);
 
   useEffect(() => {
-    localStorage.setItem("devdock-favorites", JSON.stringify(favorites));
+    localStorage.setItem(
+      "devdock-favorites",
+      JSON.stringify(favorites)
+    );
   }, [favorites]);
 
   useEffect(() => {
-    localStorage.setItem("devdock-recent", JSON.stringify(recent));
+    localStorage.setItem(
+      "devdock-recent",
+      JSON.stringify(recent)
+    );
   }, [recent]);
 
   useEffect(() => {
+    localStorage.setItem(
+      "devdock-profile",
+      JSON.stringify(profile)
+    );
+  }, [profile]);
+
+  useEffect(() => {
+    document.documentElement.style.setProperty(
+      "--accent",
+      profile.accent || "#4f8cff"
+    );
+  }, [profile.accent]);
+
+  useEffect(() => {
     const handler = (event) => {
-      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+      if (
+        (event.ctrlKey || event.metaKey) &&
+        event.key.toLowerCase() === "k"
+      ) {
         event.preventDefault();
         setCommandOpen((value) => !value);
       }
@@ -217,7 +363,7 @@ function App() {
     setCommandOpen(false);
     setMobileNav(false);
 
-    if (id !== "overview") {
+    if (id !== "overview" && id !== "profile") {
       setRecent((current) => [
         id,
         ...current.filter((item) => item !== id)
@@ -237,7 +383,12 @@ function App() {
     setToast(message);
   };
 
-  const active = ALL_TOOLS.find((tool) => tool.id === activeTool);
+  const active = activeTool === "profile"
+    ? {
+        name: "Profile",
+        description: "Your developer identity"
+      }
+    : ALL_TOOLS.find((tool) => tool.id === activeTool);
 
   return (
     <div className="app-shell">
@@ -250,6 +401,7 @@ function App() {
         openTool={openTool}
         mobileNav={mobileNav}
         setMobileNav={setMobileNav}
+        profile={profile}
       />
 
       <main className="main">
@@ -260,6 +412,8 @@ function App() {
           setDark={setDark}
           setCommandOpen={setCommandOpen}
           setMobileNav={setMobileNav}
+          profile={profile}
+          openTool={openTool}
         />
 
         <div className="content">
@@ -269,6 +423,17 @@ function App() {
               favorites={favorites}
               recent={recent}
               toggleFavorite={toggleFavorite}
+              profile={profile}
+            />
+          )}
+
+          {activeTool === "profile" && (
+            <ProfilePage
+              profile={profile}
+              setProfile={setProfile}
+              favorites={favorites}
+              recent={recent}
+              notify={notify}
             />
           )}
 
@@ -313,10 +478,10 @@ function Sidebar({
   search,
   setSearch,
   favorites,
-  recent,
   openTool,
   mobileNav,
-  setMobileNav
+  setMobileNav,
+  profile
 }) {
   const filteredGroups = TOOL_GROUPS.map((group) => ({
     ...group,
@@ -353,13 +518,18 @@ function Sidebar({
           </button>
         </div>
 
-        <button className="command-trigger" onClick={() => {
-          setSearch("");
-          document.dispatchEvent(new KeyboardEvent("keydown", {
-            key: "k",
-            ctrlKey: true
-          }));
-        }}>
+        <button
+          className="command-trigger"
+          onClick={() => {
+            setSearch("");
+            document.dispatchEvent(
+              new KeyboardEvent("keydown", {
+                key: "k",
+                ctrlKey: true
+              })
+            );
+          }}
+        >
           <Search size={14} />
           <span>Search tools...</span>
           <kbd>⌘K</kbd>
@@ -368,7 +538,9 @@ function Sidebar({
         <nav className="nav-list">
           {filteredGroups.map((group) => (
             <div className="nav-group" key={group.title}>
-              <div className="nav-group-title">{group.title}</div>
+              <div className="nav-group-title">
+                {group.title}
+              </div>
 
               {group.items.map((tool) => {
                 const Icon = tool.icon;
@@ -376,7 +548,9 @@ function Sidebar({
                 return (
                   <button
                     key={tool.id}
-                    className={`nav-item ${activeTool === tool.id ? "active" : ""}`}
+                    className={`nav-item ${
+                      activeTool === tool.id ? "active" : ""
+                    }`}
                     onClick={() => openTool(tool.id)}
                   >
                     <Icon size={15} strokeWidth={1.9} />
@@ -405,14 +579,31 @@ function Sidebar({
             <code>v1.0.0</code>
           </div>
 
-          <div className="sidebar-profile">
-            <div className="profile-avatar">FK</div>
+          <button
+            className={`sidebar-profile ${
+              activeTool === "profile" ? "active" : ""
+            }`}
+            onClick={() => openTool("profile")}
+          >
+            {profile.avatar ? (
+              <img
+                className="profile-avatar"
+                src={profile.avatar}
+                alt={profile.name}
+              />
+            ) : (
+              <div className="profile-avatar">
+                {getInitials(profile.name)}
+              </div>
+            )}
+
             <div>
-              <strong>Faizan Khan</strong>
-              <span>Developer</span>
+              <strong>{profile.name}</strong>
+              <span>{profile.role}</span>
             </div>
+
             <Settings2 size={14} />
-          </div>
+          </button>
         </div>
       </aside>
 
@@ -429,11 +620,12 @@ function Sidebar({
 
 function Topbar({
   active,
-  activeTool,
   dark,
   setDark,
   setCommandOpen,
-  setMobileNav
+  setMobileNav,
+  profile,
+  openTool
 }) {
   return (
     <header className="topbar">
@@ -471,14 +663,39 @@ function Topbar({
           {dark ? <Sun size={15} /> : <Moon size={15} />}
         </button>
 
-        <div className="top-avatar">FK</div>
+        <button
+          className="top-avatar-button"
+          onClick={() => openTool("profile")}
+          aria-label="Open profile"
+        >
+          {profile.avatar ? (
+            <img
+              className="top-avatar"
+              src={profile.avatar}
+              alt={profile.name}
+            />
+          ) : (
+            <span className="top-avatar">
+              {getInitials(profile.name)}
+            </span>
+          )}
+        </button>
       </div>
     </header>
   );
 }
 
-function Overview({ openTool, favorites, recent, toggleFavorite }) {
-  const favoriteTools = ALL_TOOLS.filter((tool) => favorites.includes(tool.id));
+function Overview({
+  openTool,
+  favorites,
+  recent,
+  toggleFavorite,
+  profile
+}) {
+  const favoriteTools = ALL_TOOLS.filter((tool) =>
+    favorites.includes(tool.id)
+  );
+
   const recentTools = recent
     .map((id) => ALL_TOOLS.find((tool) => tool.id === id))
     .filter(Boolean);
@@ -496,7 +713,9 @@ function Overview({ openTool, favorites, recent, toggleFavorite }) {
             DEVELOPER WORKSPACE
           </div>
 
-          <h1>Build faster. Stay in flow.</h1>
+          <h1>
+            Welcome back, {profile.name.split(" ")[0]}.
+          </h1>
 
           <p>
             A focused collection of developer tools for formatting,
@@ -510,6 +729,29 @@ function Overview({ openTool, favorites, recent, toggleFavorite }) {
         </div>
       </div>
 
+      <button
+        className="profile-overview-card"
+        onClick={() => openTool("profile")}
+      >
+        <div className="profile-overview-avatar">
+          {profile.avatar ? (
+            <img src={profile.avatar} alt={profile.name} />
+          ) : (
+            getInitials(profile.name)
+          )}
+        </div>
+
+        <div className="profile-overview-info">
+          <strong>{profile.name}</strong>
+          <span>@{profile.username} · {profile.role}</span>
+        </div>
+
+        <span className="profile-overview-edit">
+          Edit profile
+          <ChevronRight size={14} />
+        </span>
+      </button>
+
       <div className="command-panel">
         <div className="command-panel-icon">
           <Command size={19} />
@@ -517,23 +759,32 @@ function Overview({ openTool, favorites, recent, toggleFavorite }) {
 
         <div className="command-panel-copy">
           <strong>Command Center</strong>
-          <span>Jump to any tool instantly with keyboard search.</span>
+          <span>
+            Jump to any tool instantly with keyboard search.
+          </span>
         </div>
 
-        <button className="button primary" onClick={() => {
-          const event = new KeyboardEvent("keydown", {
-            key: "k",
-            ctrlKey: true
-          });
-          document.dispatchEvent(event);
-        }}>
+        <button
+          className="button primary"
+          onClick={() => {
+            document.dispatchEvent(
+              new KeyboardEvent("keydown", {
+                key: "k",
+                ctrlKey: true
+              })
+            );
+          }}
+        >
           <Search size={14} />
           Open Command
           <kbd>⌘K</kbd>
         </button>
       </div>
 
-      <SectionHeader title="Quick tools" subtitle="The tools you’ll reach for most." />
+      <SectionHeader
+        title="Quick tools"
+        subtitle="The tools you’ll reach for most."
+      />
 
       <div className="quick-grid">
         {quickTools.map((tool) => (
@@ -565,9 +816,12 @@ function Overview({ openTool, favorites, recent, toggleFavorite }) {
               ))
             ) : (
               <div className="empty-list">
-                <ClockIcon />
+                <Activity size={17} />
                 <strong>No recent tools</strong>
-                <span>Start using DevDock and your recent tools will appear here.</span>
+                <span>
+                  Start using DevDock and your recent tools
+                  will appear here.
+                </span>
               </div>
             )}
           </div>
@@ -594,51 +848,591 @@ function Overview({ openTool, favorites, recent, toggleFavorite }) {
               <div className="empty-list">
                 <Sparkles size={18} />
                 <strong>No favorites yet</strong>
-                <span>Star tools you use often from the tool pages.</span>
+                <span>
+                  Star tools you use often from the tool pages.
+                </span>
               </div>
             )}
           </div>
         </section>
       </div>
 
-      <SectionHeader title="Toolbox" subtitle="Everything available in DevDock." />
+      <SectionHeader
+        title="Toolbox"
+        subtitle="Everything available in DevDock."
+      />
 
       <div className="toolbox-grid">
-        {TOOL_GROUPS.filter((group) => group.title !== "Workspace").map((group) => (
-          <div className="toolbox-group" key={group.title}>
-            <div className="toolbox-title">
-              <span>{group.title}</span>
-              <small>{group.items.length}</small>
+        {TOOL_GROUPS
+          .filter((group) => group.title !== "Workspace")
+          .map((group) => (
+            <div className="toolbox-group" key={group.title}>
+              <div className="toolbox-title">
+                <span>{group.title}</span>
+                <small>{group.items.length}</small>
+              </div>
+
+              {group.items.map((tool) => {
+                const Icon = tool.icon;
+
+                return (
+                  <button
+                    key={tool.id}
+                    className="toolbox-item"
+                    onClick={() => openTool(tool.id)}
+                  >
+                    <Icon size={14} />
+                    <span>{tool.name}</span>
+                    <ChevronRight size={13} />
+                  </button>
+                );
+              })}
             </div>
-
-            {group.items.map((tool) => {
-              const Icon = tool.icon;
-
-              return (
-                <button
-                  key={tool.id}
-                  className="toolbox-item"
-                  onClick={() => openTool(tool.id)}
-                >
-                  <Icon size={14} />
-                  <span>{tool.name}</span>
-                  <ChevronRight size={13} />
-                </button>
-              );
-            })}
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );
 }
 
-function ToolCard({ tool, openTool, favorites, toggleFavorite }) {
+function ProfilePage({
+  profile,
+  setProfile,
+  favorites,
+  recent,
+  notify
+}) {
+  const [draft, setDraft] = useState(profile);
+  const [techInput, setTechInput] = useState("");
+
+  useEffect(() => {
+    setDraft(profile);
+  }, [profile]);
+
+  const update = (key, value) => {
+    setDraft((current) => ({
+      ...current,
+      [key]: value
+    }));
+  };
+
+  const addTech = () => {
+    const value = techInput.trim();
+
+    if (!value) return;
+
+    if (
+      draft.tech.some(
+        (item) => item.toLowerCase() === value.toLowerCase()
+      )
+    ) {
+      setTechInput("");
+      return;
+    }
+
+    setDraft((current) => ({
+      ...current,
+      tech: [...current.tech, value]
+    }));
+
+    setTechInput("");
+  };
+
+  const removeTech = (value) => {
+    setDraft((current) => ({
+      ...current,
+      tech: current.tech.filter((item) => item !== value)
+    }));
+  };
+
+  const save = () => {
+    setProfile({
+      ...draft,
+      username: draft.username
+        .trim()
+        .replace(/^@/, "")
+        .replace(/\s+/g, "-")
+        .toLowerCase()
+    });
+
+    notify("Profile saved");
+  };
+
+  const reset = () => {
+    setDraft(DEFAULT_PROFILE);
+    setProfile(DEFAULT_PROFILE);
+    notify("Profile reset");
+  };
+
+  const uploadImage = (event, key) => {
+    const file = event.target.files?.[0];
+
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      notify("Please select an image");
+      return;
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+      notify("Image must be under 2MB");
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      setDraft((current) => ({
+        ...current,
+        [key]: reader.result
+      }));
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  return (
+    <div className="page profile-page">
+      <div className="page-intro">
+        <div>
+          <div className="page-eyebrow">
+            <span className="eyebrow-line" />
+            ACCOUNT
+          </div>
+
+          <h1>Profile</h1>
+
+          <p>
+            Customize how you appear inside your DevDock workspace.
+          </p>
+        </div>
+
+        <div className="profile-page-actions">
+          <button
+            className="button secondary"
+            onClick={reset}
+          >
+            <RefreshCw size={13} />
+            Reset
+          </button>
+
+          <button
+            className="button primary"
+            onClick={save}
+          >
+            <Check size={13} />
+            Save Profile
+          </button>
+        </div>
+      </div>
+
+      <div className="profile-layout">
+        <div className="profile-editor">
+          <section className="profile-section">
+            <div className="profile-section-heading">
+              <div>
+                <h2>Identity</h2>
+                <p>Your basic developer information.</p>
+              </div>
+            </div>
+
+            <div className="profile-image-grid">
+              <div className="profile-image-control">
+                <div
+                  className="profile-banner-preview"
+                  style={{
+                    backgroundImage: draft.banner
+                      ? `url(${draft.banner})`
+                      : "none"
+                  }}
+                >
+                  {!draft.banner && (
+                    <span>PROFILE BANNER</span>
+                  )}
+                </div>
+
+                <label className="upload-button">
+                  Upload banner
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(event) =>
+                      uploadImage(event, "banner")
+                    }
+                  />
+                </label>
+              </div>
+
+              <div className="profile-image-control avatar-control">
+                <div className="profile-editor-avatar">
+                  {draft.avatar ? (
+                    <img
+                      src={draft.avatar}
+                      alt={draft.name}
+                    />
+                  ) : (
+                    getInitials(draft.name)
+                  )}
+                </div>
+
+                <label className="upload-button">
+                  Upload avatar
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(event) =>
+                      uploadImage(event, "avatar")
+                    }
+                  />
+                </label>
+              </div>
+            </div>
+
+            <div className="profile-fields">
+              <div className="field">
+                <label>Name</label>
+                <input
+                  className="input"
+                  value={draft.name}
+                  onChange={(event) =>
+                    update("name", event.target.value)
+                  }
+                  placeholder="Your name"
+                />
+              </div>
+
+              <div className="field">
+                <label>Username</label>
+                <div className="input-prefix">
+                  <span>@</span>
+                  <input
+                    className="input"
+                    value={draft.username}
+                    onChange={(event) =>
+                      update("username", event.target.value)
+                    }
+                    placeholder="username"
+                  />
+                </div>
+              </div>
+
+              <div className="field">
+                <label>Role</label>
+                <input
+                  className="input"
+                  value={draft.role}
+                  onChange={(event) =>
+                    update("role", event.target.value)
+                  }
+                  placeholder="Frontend Developer"
+                />
+              </div>
+
+              <div className="field">
+                <label>Location</label>
+                <div className="input-prefix">
+                  <MapPin size={14} />
+                  <input
+                    className="input"
+                    value={draft.location}
+                    onChange={(event) =>
+                      update("location", event.target.value)
+                    }
+                    placeholder="City, Country"
+                  />
+                </div>
+              </div>
+
+              <div className="field full">
+                <label>Bio</label>
+                <textarea
+                  className="profile-textarea"
+                  maxLength={180}
+                  value={draft.bio}
+                  onChange={(event) =>
+                    update("bio", event.target.value)
+                  }
+                  placeholder="Tell people what you build..."
+                />
+                <small>
+                  {draft.bio.length}/180
+                </small>
+              </div>
+            </div>
+          </section>
+
+          <section className="profile-section">
+            <div className="profile-section-heading">
+              <div>
+                <h2>Links</h2>
+                <p>Connect your developer presence.</p>
+              </div>
+            </div>
+
+            <div className="profile-fields">
+              <div className="field full">
+                <label>GitHub</label>
+                <input
+                  className="input"
+                  value={draft.github}
+                  onChange={(event) =>
+                    update("github", event.target.value)
+                  }
+                  placeholder="https://github.com/username"
+                />
+              </div>
+
+              <div className="field full">
+                <label>LinkedIn</label>
+                <input
+                  className="input"
+                  value={draft.linkedin}
+                  onChange={(event) =>
+                    update("linkedin", event.target.value)
+                  }
+                  placeholder="https://linkedin.com/in/username"
+                />
+              </div>
+
+              <div className="field full">
+                <label>Portfolio</label>
+                <input
+                  className="input"
+                  value={draft.portfolio}
+                  onChange={(event) =>
+                    update("portfolio", event.target.value)
+                  }
+                  placeholder="https://yourportfolio.com"
+                />
+              </div>
+            </div>
+          </section>
+
+          <section className="profile-section">
+            <div className="profile-section-heading">
+              <div>
+                <h2>Tech Stack</h2>
+                <p>Add the technologies you work with.</p>
+              </div>
+            </div>
+
+            <div className="tech-input-row">
+              <input
+                className="input"
+                value={techInput}
+                onChange={(event) =>
+                  setTechInput(event.target.value)
+                }
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    event.preventDefault();
+                    addTech();
+                  }
+                }}
+                placeholder="React, TypeScript, Node.js..."
+              />
+
+              <button
+                className="button secondary"
+                onClick={addTech}
+              >
+                <Plus size={13} />
+                Add
+              </button>
+            </div>
+
+            <div className="profile-tech-list">
+              {draft.tech.map((tech) => (
+                <button
+                  key={tech}
+                  className="profile-tech"
+                  onClick={() => removeTech(tech)}
+                  title="Remove technology"
+                >
+                  {tech}
+                  <X size={11} />
+                </button>
+              ))}
+            </div>
+          </section>
+
+          <section className="profile-section">
+            <div className="profile-section-heading">
+              <div>
+                <h2>Appearance</h2>
+                <p>Choose your profile accent.</p>
+              </div>
+            </div>
+
+            <div className="accent-row">
+              <input
+                type="color"
+                value={draft.accent}
+                onChange={(event) =>
+                  update("accent", event.target.value)
+                }
+              />
+
+              <div>
+                <strong>{draft.accent.toUpperCase()}</strong>
+                <span>Profile accent color</span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <ProfilePreview
+          profile={draft}
+          favorites={favorites}
+          recent={recent}
+        />
+      </div>
+    </div>
+  );
+}
+
+function ProfilePreview({
+  profile,
+  favorites,
+  recent
+}) {
+  const links = [
+    profile.github,
+    profile.linkedin,
+    profile.portfolio
+  ].filter(Boolean);
+
+  return (
+    <aside className="profile-preview">
+      <div className="profile-preview-label">
+        LIVE PREVIEW
+      </div>
+
+      <div className="profile-preview-card">
+        <div
+          className="profile-preview-banner"
+          style={{
+            backgroundImage: profile.banner
+              ? `url(${profile.banner})`
+              : "none"
+          }}
+        />
+
+        <div className="profile-preview-body">
+          <div className="profile-preview-avatar">
+            {profile.avatar ? (
+              <img
+                src={profile.avatar}
+                alt={profile.name}
+              />
+            ) : (
+              getInitials(profile.name)
+            )}
+          </div>
+
+          <div className="profile-preview-name-row">
+            <div>
+              <h2>{profile.name || "Your Name"}</h2>
+              <span>
+                @{profile.username || "username"}
+              </span>
+            </div>
+
+            <span className="profile-role">
+              {profile.role || "Developer"}
+            </span>
+          </div>
+
+          <p className="profile-preview-bio">
+            {profile.bio ||
+              "Your developer bio will appear here."}
+          </p>
+
+          {profile.location && (
+            <div className="profile-location">
+              <MapPin size={13} />
+              {profile.location}
+            </div>
+          )}
+
+          {links.length > 0 && (
+            <div className="profile-links">
+              {profile.github && (
+                <a
+                  href={profile.github}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  GitHub
+                  <ExternalLink size={11} />
+                </a>
+              )}
+
+              {profile.linkedin && (
+                <a
+                  href={profile.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  LinkedIn
+                  <ExternalLink size={11} />
+                </a>
+              )}
+
+              {profile.portfolio && (
+                <a
+                  href={profile.portfolio}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Portfolio
+                  <ExternalLink size={11} />
+                </a>
+              )}
+            </div>
+          )}
+
+          <div className="profile-preview-tech">
+            {profile.tech.map((tech) => (
+              <span key={tech}>{tech}</span>
+            ))}
+          </div>
+
+          <div className="profile-preview-stats">
+            <div>
+              <strong>{favorites.length}</strong>
+              <span>Favorites</span>
+            </div>
+
+            <div>
+              <strong>{recent.length}</strong>
+              <span>Recent</span>
+            </div>
+
+            <div>
+              <strong>{ALL_TOOLS.length}</strong>
+              <span>Tools</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
+function ToolCard({
+  tool,
+  openTool,
+  favorites,
+  toggleFavorite
+}) {
   const Icon = tool.icon;
 
   return (
     <div className="tool-card">
-      <button className="tool-card-main" onClick={() => openTool(tool.id)}>
+      <button
+        className="tool-card-main"
+        onClick={() => openTool(tool.id)}
+      >
         <div className="tool-card-icon">
           <Icon size={17} />
         </div>
@@ -652,7 +1446,9 @@ function ToolCard({ tool, openTool, favorites, toggleFavorite }) {
       </button>
 
       <button
-        className={`favorite-button ${favorites.includes(tool.id) ? "active" : ""}`}
+        className={`favorite-button ${
+          favorites.includes(tool.id) ? "active" : ""
+        }`}
         onClick={() => toggleFavorite(tool.id)}
         aria-label="Toggle favorite"
       >
@@ -672,7 +1468,10 @@ function ToolListRow({
 
   return (
     <div className="tool-row">
-      <button className="tool-row-main" onClick={() => openTool(tool.id)}>
+      <button
+        className="tool-row-main"
+        onClick={() => openTool(tool.id)}
+      >
         <div className="mini-icon">
           <Icon size={14} />
         </div>
@@ -697,7 +1496,10 @@ function ToolListRow({
   );
 }
 
-function SectionHeader({ title, subtitle }) {
+function SectionHeader({
+  title,
+  subtitle
+}) {
   return (
     <div className="section-header">
       <div>
@@ -726,12 +1528,21 @@ function ToolShell({
         <div className="tool-heading-copy">
           <div className="tool-heading-title">
             <h1>{title}</h1>
-            {badge && <span className="tool-badge">{badge}</span>}
+            {badge && (
+              <span className="tool-badge">
+                {badge}
+              </span>
+            )}
           </div>
+
           <p>{description}</p>
         </div>
 
-        {actions && <div className="tool-heading-actions">{actions}</div>}
+        {actions && (
+          <div className="tool-heading-actions">
+            {actions}
+          </div>
+        )}
       </div>
 
       {children}
@@ -755,14 +1566,20 @@ function EditorPanel({
 
         <div>
           {onCopy && (
-            <button className="editor-action" onClick={onCopy}>
+            <button
+              className="editor-action"
+              onClick={onCopy}
+            >
               <Copy size={13} />
               Copy
             </button>
           )}
 
           {onClear && (
-            <button className="editor-action" onClick={onClear}>
+            <button
+              className="editor-action"
+              onClick={onClear}
+            >
               <Trash2 size={13} />
               Clear
             </button>
@@ -773,12 +1590,18 @@ function EditorPanel({
       <textarea
         className="code-editor"
         value={value}
-        onChange={(event) => onChange(event.target.value)}
+        onChange={(event) =>
+          onChange(event.target.value)
+        }
         placeholder={placeholder}
         spellCheck="false"
       />
 
-      {footer && <div className="editor-footer">{footer}</div>}
+      {footer && (
+        <div className="editor-footer">
+          {footer}
+        </div>
+      )}
     </div>
   );
 }
@@ -806,8 +1629,9 @@ function JsonTool({ notify }) {
       }
 
       if (mode === "sort") {
-        const sorted = sortObject(parsed);
-        setOutput(JSON.stringify(sorted, null, 2));
+        setOutput(
+          JSON.stringify(sortObject(parsed), null, 2)
+        );
       }
 
       setError("");
@@ -835,7 +1659,10 @@ function JsonTool({ notify }) {
       icon={FileJson}
       badge="CODE"
       actions={
-        <button className="button primary" onClick={process}>
+        <button
+          className="button primary"
+          onClick={process}
+        >
           <Play size={13} />
           Run
         </button>
@@ -890,7 +1717,10 @@ function JsonTool({ notify }) {
           </span>
         )}
 
-        <button className="button secondary" onClick={validate}>
+        <button
+          className="button secondary"
+          onClick={validate}
+        >
           <ShieldCheck size={13} />
           Validate
         </button>
@@ -909,13 +1739,25 @@ function JwtTool({ notify }) {
       const parts = token.trim().split(".");
 
       if (parts.length !== 3) {
-        throw new Error("A JWT must contain three sections.");
+        throw new Error(
+          "A JWT must contain three sections."
+        );
       }
 
-      const header = JSON.parse(base64UrlDecode(parts[0]));
-      const payload = JSON.parse(base64UrlDecode(parts[1]));
+      const header = JSON.parse(
+        base64UrlDecode(parts[0])
+      );
 
-      setDecoded({ header, payload, signature: parts[2] });
+      const payload = JSON.parse(
+        base64UrlDecode(parts[1])
+      );
+
+      setDecoded({
+        header,
+        payload,
+        signature: parts[2]
+      });
+
       setError("");
     } catch (err) {
       setDecoded(null);
@@ -924,10 +1766,12 @@ function JwtTool({ notify }) {
   };
 
   const claims = decoded
-    ? Object.entries(decoded.payload).map(([key, value]) => ({
-        key,
-        value
-      }))
+    ? Object.entries(decoded.payload).map(
+        ([key, value]) => ({
+          key,
+          value
+        })
+      )
     : [];
 
   return (
@@ -937,7 +1781,10 @@ function JwtTool({ notify }) {
       icon={KeyRound}
       badge="SECURITY"
       actions={
-        <button className="button primary" onClick={decode}>
+        <button
+          className="button primary"
+          onClick={decode}
+        >
           <Play size={13} />
           Decode
         </button>
@@ -946,7 +1793,9 @@ function JwtTool({ notify }) {
       <div className="security-warning">
         <ShieldCheck size={15} />
         <span>
-          Decoding does not verify the token signature. Never paste sensitive production tokens into shared environments.
+          Decoding does not verify the token signature.
+          Never paste sensitive production tokens into
+          shared environments.
         </span>
       </div>
 
@@ -967,13 +1816,19 @@ function JwtTool({ notify }) {
         <div className="result-panel">
           <div className="result-header">
             <span>DECODED</span>
-            {decoded && <span className="valid-label">PARSED</span>}
+            {decoded && (
+              <span className="valid-label">
+                PARSED
+              </span>
+            )}
           </div>
 
           {error && (
             <div className="error-state">
               <X size={16} />
-              <strong>Unable to decode token</strong>
+              <strong>
+                Unable to decode token
+              </strong>
               <span>{error}</span>
             </div>
           )}
@@ -981,22 +1836,37 @@ function JwtTool({ notify }) {
           {!error && !decoded && (
             <div className="empty-result">
               <KeyRound size={18} />
-              <span>Decode a JWT to inspect its contents.</span>
+              <span>
+                Decode a JWT to inspect its contents.
+              </span>
             </div>
           )}
 
           {decoded && (
             <div className="jwt-result">
-              <JsonBlock title="Header" data={decoded.header} />
-              <JsonBlock title="Payload" data={decoded.payload} />
+              <JsonBlock
+                title="Header"
+                data={decoded.header}
+              />
+
+              <JsonBlock
+                title="Payload"
+                data={decoded.payload}
+              />
 
               <div className="claim-section">
-                <div className="claim-title">Claims</div>
+                <div className="claim-title">
+                  Claims
+                </div>
 
                 <div className="claims-table">
                   {claims.map((claim) => (
-                    <div className="claim-row" key={claim.key}>
+                    <div
+                      className="claim-row"
+                      key={claim.key}
+                    >
                       <code>{claim.key}</code>
+
                       <span>
                         {claim.key === "exp"
                           ? formatUnix(claim.value)
@@ -1019,31 +1889,56 @@ function JwtTool({ notify }) {
   );
 }
 
-function JsonBlock({ title, data }) {
+function JsonBlock({
+  title,
+  data
+}) {
   return (
     <div className="json-block">
       <div>{title}</div>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      <pre>
+        {JSON.stringify(data, null, 2)}
+      </pre>
     </div>
   );
 }
 
 function RegexTool({ notify }) {
-  const [pattern, setPattern] = useState("\\b[A-Z][a-z]+\\b");
-  const [flags, setFlags] = useState("g");
-  const [text, setText] = useState("DevDock helps Faizan build developer tools.");
-  const [matches, setMatches] = useState([]);
-  const [error, setError] = useState("");
+  const [pattern, setPattern] =
+    useState("\\b[A-Z][a-z]+\\b");
+
+  const [flags, setFlags] =
+    useState("g");
+
+  const [text, setText] =
+    useState(
+      "DevDock helps Faizan build developer tools."
+    );
+
+  const [matches, setMatches] =
+    useState([]);
+
+  const [error, setError] =
+    useState("");
 
   const test = () => {
     try {
-      const regex = new RegExp(pattern, flags);
+      const regex = new RegExp(
+        pattern,
+        flags
+      );
+
       const found = [];
 
-      if (regex.global || regex.sticky) {
+      if (
+        regex.global ||
+        regex.sticky
+      ) {
         let match;
 
-        while ((match = regex.exec(text)) !== null) {
+        while (
+          (match = regex.exec(text)) !== null
+        ) {
           found.push(match[0]);
 
           if (match[0] === "") {
@@ -1053,12 +1948,19 @@ function RegexTool({ notify }) {
       } else {
         const match = regex.exec(text);
 
-        if (match) found.push(match[0]);
+        if (match) {
+          found.push(match[0]);
+        }
       }
 
       setMatches(found);
       setError("");
-      notify(`${found.length} match${found.length === 1 ? "" : "es"} found`);
+
+      notify(
+        `${found.length} match${
+          found.length === 1 ? "" : "es"
+        } found`
+      );
     } catch (err) {
       setMatches([]);
       setError(err.message);
@@ -1072,7 +1974,10 @@ function RegexTool({ notify }) {
       icon={Regex}
       badge="CODE"
       actions={
-        <button className="button primary" onClick={test}>
+        <button
+          className="button primary"
+          onClick={test}
+        >
           <Play size={13} />
           Test
         </button>
@@ -1084,7 +1989,9 @@ function RegexTool({ notify }) {
           <input
             className="input"
             value={pattern}
-            onChange={(event) => setPattern(event.target.value)}
+            onChange={(event) =>
+              setPattern(event.target.value)
+            }
             spellCheck="false"
           />
         </div>
@@ -1094,7 +2001,9 @@ function RegexTool({ notify }) {
           <input
             className="input"
             value={flags}
-            onChange={(event) => setFlags(event.target.value)}
+            onChange={(event) =>
+              setFlags(event.target.value)
+            }
             spellCheck="false"
           />
         </div>
@@ -1124,11 +2033,15 @@ function RegexTool({ notify }) {
           {matches.length ? (
             <div className="match-list">
               {matches.map((match, index) => (
-                <code key={`${match}-${index}`}>{match}</code>
+                <code key={`${match}-${index}`}>
+                  {match}
+                </code>
               ))}
             </div>
           ) : (
-            <div className="empty-inline">No matches yet.</div>
+            <div className="empty-inline">
+              No matches yet.
+            </div>
           )}
         </div>
       )}
@@ -1147,8 +2060,14 @@ function DiffTool({ notify }) {
   role: "Frontend Developer"
 };`);
 
-  const [ignoreWhitespace, setIgnoreWhitespace] = useState(false);
-  const result = createDiff(left, right, ignoreWhitespace);
+  const [ignoreWhitespace, setIgnoreWhitespace] =
+    useState(false);
+
+  const result = createDiff(
+    left,
+    right,
+    ignoreWhitespace
+  );
 
   return (
     <ToolShell
@@ -1175,13 +2094,18 @@ function DiffTool({ notify }) {
           <input
             type="checkbox"
             checked={ignoreWhitespace}
-            onChange={(event) => setIgnoreWhitespace(event.target.checked)}
+            onChange={(event) =>
+              setIgnoreWhitespace(
+                event.target.checked
+              )
+            }
           />
           Ignore whitespace
         </label>
 
         <span>
-          {result.added} added · {result.removed} removed
+          {result.added} added ·{" "}
+          {result.removed} removed
         </span>
       </div>
 
@@ -1198,7 +2122,9 @@ function DiffTool({ notify }) {
           title="CHANGED"
           value={right}
           onChange={setRight}
-          onCopy={() => copyText(right, notify)}
+          onCopy={() =>
+            copyText(right, notify)
+          }
           onClear={() => setRight("")}
         />
       </div>
@@ -1206,17 +2132,34 @@ function DiffTool({ notify }) {
       <div className="diff-result">
         <div className="result-header">
           <span>DIFF</span>
-          <span>{result.lines.length} lines</span>
+          <span>
+            {result.lines.length} lines
+          </span>
         </div>
 
         <div className="diff-lines">
-          {result.lines.map((line, index) => (
-            <div className={`diff-line ${line.type}`} key={index}>
-              <span>{index + 1}</span>
-              <b>{line.type === "added" ? "+" : line.type === "removed" ? "-" : " "}</b>
-              <code>{line.text || " "}</code>
-            </div>
-          ))}
+          {result.lines.map(
+            (line, index) => (
+              <div
+                className={`diff-line ${line.type}`}
+                key={index}
+              >
+                <span>{index + 1}</span>
+
+                <b>
+                  {line.type === "added"
+                    ? "+"
+                    : line.type === "removed"
+                      ? "-"
+                      : " "}
+                </b>
+
+                <code>
+                  {line.text || " "}
+                </code>
+              </div>
+            )
+          )}
         </div>
       </div>
     </ToolShell>
@@ -1224,7 +2167,8 @@ function DiffTool({ notify }) {
 }
 
 function MarkdownTool({ notify }) {
-  const [markdown, setMarkdown] = useState(`# DevDock
+  const [markdown, setMarkdown] =
+    useState(`# DevDock
 
 Build faster with a focused developer workspace.
 
@@ -1248,7 +2192,9 @@ Build faster with a focused developer workspace.
       actions={
         <button
           className="button secondary"
-          onClick={() => copyText(markdown, notify)}
+          onClick={() =>
+            copyText(markdown, notify)
+          }
         >
           <Copy size={13} />
           Copy
@@ -1260,7 +2206,9 @@ Build faster with a focused developer workspace.
           title="MARKDOWN"
           value={markdown}
           onChange={setMarkdown}
-          onCopy={() => copyText(markdown, notify)}
+          onCopy={() =>
+            copyText(markdown, notify)
+          }
           onClear={() => setMarkdown("")}
         />
 
@@ -1269,73 +2217,123 @@ Build faster with a focused developer workspace.
             <span>PREVIEW</span>
           </div>
 
-          <MarkdownPreview markdown={markdown} />
+          <MarkdownPreview
+            markdown={markdown}
+          />
         </div>
       </div>
     </ToolShell>
   );
 }
 
-function MarkdownPreview({ markdown }) {
+function MarkdownPreview({
+  markdown
+}) {
   const lines = markdown.split("\n");
 
   return (
     <div className="markdown-preview">
       {lines.map((line, index) => {
         if (line.startsWith("### ")) {
-          return <h3 key={index}>{line.slice(4)}</h3>;
+          return (
+            <h3 key={index}>
+              {line.slice(4)}
+            </h3>
+          );
         }
 
         if (line.startsWith("## ")) {
-          return <h2 key={index}>{line.slice(3)}</h2>;
+          return (
+            <h2 key={index}>
+              {line.slice(3)}
+            </h2>
+          );
         }
 
         if (line.startsWith("# ")) {
-          return <h1 key={index}>{line.slice(2)}</h1>;
+          return (
+            <h1 key={index}>
+              {line.slice(2)}
+            </h1>
+          );
         }
 
         if (line.startsWith("- ")) {
-          return <li key={index}>{line.slice(2)}</li>;
+          return (
+            <li key={index}>
+              {line.slice(2)}
+            </li>
+          );
         }
 
         if (!line.trim()) {
-          return <div className="markdown-space" key={index} />;
+          return (
+            <div
+              className="markdown-space"
+              key={index}
+            />
+          );
         }
 
-        return <p key={index}>{formatMarkdownText(line)}</p>;
+        return (
+          <p key={index}>
+            {formatMarkdownText(line)}
+          </p>
+        );
       })}
     </div>
   );
 }
 
 function formatMarkdownText(text) {
-  const parts = text.split(/(`[^`]+`)/g);
+  const parts = text.split(
+    /(`[^`]+`)/g
+  );
 
-  return parts.map((part, index) =>
-    part.startsWith("`") && part.endsWith("`")
-      ? <code key={index}>{part.slice(1, -1)}</code>
-      : part
+  return parts.map(
+    (part, index) =>
+      part.startsWith("`") &&
+      part.endsWith("`") ? (
+        <code key={index}>
+          {part.slice(1, -1)}
+        </code>
+      ) : (
+        part
+      )
   );
 }
 
 function Base64Tool({ notify }) {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
-  const [mode, setMode] = useState("encode");
+  const [mode, setMode] =
+    useState("encode");
   const [error, setError] = useState("");
 
   const process = () => {
     try {
       if (mode === "encode") {
-        setOutput(btoa(unescape(encodeURIComponent(input))));
+        setOutput(
+          btoa(
+            unescape(
+              encodeURIComponent(input)
+            )
+          )
+        );
       } else {
-        setOutput(decodeURIComponent(escape(atob(input.trim()))));
+        setOutput(
+          decodeURIComponent(
+            escape(atob(input.trim()))
+          )
+        );
       }
 
       setError("");
     } catch {
       setOutput("");
-      setError("Invalid Base64 input.");
+      setError(
+        "Invalid Base64 input."
+      );
     }
   };
 
@@ -1346,7 +2344,10 @@ function Base64Tool({ notify }) {
       icon={Database}
       badge="DATA"
       actions={
-        <button className="button primary" onClick={process}>
+        <button
+          className="button primary"
+          onClick={process}
+        >
           <Play size={13} />
           Process
         </button>
@@ -1354,15 +2355,27 @@ function Base64Tool({ notify }) {
     >
       <div className="mode-tabs">
         <button
-          className={mode === "encode" ? "active" : ""}
-          onClick={() => setMode("encode")}
+          className={
+            mode === "encode"
+              ? "active"
+              : ""
+          }
+          onClick={() =>
+            setMode("encode")
+          }
         >
           Encode
         </button>
 
         <button
-          className={mode === "decode" ? "active" : ""}
-          onClick={() => setMode("decode")}
+          className={
+            mode === "decode"
+              ? "active"
+              : ""
+          }
+          onClick={() =>
+            setMode("decode")
+          }
         >
           Decode
         </button>
@@ -1373,7 +2386,9 @@ function Base64Tool({ notify }) {
           title="INPUT"
           value={input}
           onChange={setInput}
-          onCopy={() => copyText(input, notify)}
+          onCopy={() =>
+            copyText(input, notify)
+          }
           onClear={() => setInput("")}
           placeholder="Enter text..."
         />
@@ -1382,33 +2397,54 @@ function Base64Tool({ notify }) {
           title="OUTPUT"
           value={output}
           onChange={setOutput}
-          onCopy={() => copyText(output, notify)}
+          onCopy={() =>
+            copyText(output, notify)
+          }
           onClear={() => setOutput("")}
           placeholder="Output..."
         />
       </div>
 
-      {error && <div className="error-state inline">{error}</div>}
+      {error && (
+        <div className="error-state inline">
+          {error}
+        </div>
+      )}
     </ToolShell>
   );
 }
 
 function UrlTool({ notify }) {
-  const [input, setInput] = useState("https://example.com/api/users?page=2&sort=name");
-  const [mode, setMode] = useState("parse");
-  const [output, setOutput] = useState("");
-  const [parsed, setParsed] = useState(null);
-  const [error, setError] = useState("");
+  const [input, setInput] =
+    useState(
+      "https://example.com/api/users?page=2&sort=name"
+    );
+
+  const [mode, setMode] =
+    useState("parse");
+
+  const [output, setOutput] =
+    useState("");
+
+  const [parsed, setParsed] =
+    useState(null);
+
+  const [error, setError] =
+    useState("");
 
   const process = () => {
     try {
       if (mode === "encode") {
-        setOutput(encodeURIComponent(input));
+        setOutput(
+          encodeURIComponent(input)
+        );
         setParsed(null);
       }
 
       if (mode === "decode") {
-        setOutput(decodeURIComponent(input));
+        setOutput(
+          decodeURIComponent(input)
+        );
         setParsed(null);
       }
 
@@ -1423,7 +2459,9 @@ function UrlTool({ notify }) {
           pathname: url.pathname,
           search: url.search || "—",
           hash: url.hash || "—",
-          params: [...url.searchParams.entries()]
+          params: [
+            ...url.searchParams.entries()
+          ]
         });
 
         setOutput("");
@@ -1444,7 +2482,10 @@ function UrlTool({ notify }) {
       icon={Link2}
       badge="DATA"
       actions={
-        <button className="button primary" onClick={process}>
+        <button
+          className="button primary"
+          onClick={process}
+        >
           <Play size={13} />
           Process
         </button>
@@ -1455,36 +2496,56 @@ function UrlTool({ notify }) {
           ["parse", "Parse"],
           ["encode", "Encode"],
           ["decode", "Decode"]
-        ].map(([value, label]) => (
-          <button
-            key={value}
-            className={mode === value ? "active" : ""}
-            onClick={() => setMode(value)}
-          >
-            {label}
-          </button>
-        ))}
+        ].map(
+          ([value, label]) => (
+            <button
+              key={value}
+              className={
+                mode === value
+                  ? "active"
+                  : ""
+              }
+              onClick={() =>
+                setMode(value)
+              }
+            >
+              {label}
+            </button>
+          )
+        )}
       </div>
 
       <EditorPanel
         title="URL"
         value={input}
         onChange={setInput}
-        onCopy={() => copyText(input, notify)}
+        onCopy={() =>
+          copyText(input, notify)
+        }
         onClear={() => setInput("")}
         placeholder="https://example.com/path?query=value"
       />
 
-      {error && <div className="error-state inline">{error}</div>}
+      {error && (
+        <div className="error-state inline">
+          {error}
+        </div>
+      )}
 
       {output && (
         <div className="single-output">
           <div className="result-header">
             <span>OUTPUT</span>
-            <button onClick={() => copyText(output, notify)}>
+
+            <button
+              onClick={() =>
+                copyText(output, notify)
+              }
+            >
               <Copy size={13} />
             </button>
           </div>
+
           <code>{output}</code>
         </div>
       )}
@@ -1500,28 +2561,42 @@ function UrlTool({ notify }) {
               ["Path", parsed.pathname],
               ["Search", parsed.search],
               ["Hash", parsed.hash]
-            ].map(([label, value]) => (
-              <div className="url-field" key={label}>
-                <span>{label}</span>
-                <code>{value}</code>
-              </div>
-            ))}
+            ].map(
+              ([label, value]) => (
+                <div
+                  className="url-field"
+                  key={label}
+                >
+                  <span>{label}</span>
+                  <code>{value}</code>
+                </div>
+              )
+            )}
           </div>
 
           <div className="claim-section">
-            <div className="claim-title">Query Parameters</div>
+            <div className="claim-title">
+              Query Parameters
+            </div>
 
             {parsed.params.length ? (
               <div className="claims-table">
-                {parsed.params.map(([key, value], index) => (
-                  <div className="claim-row" key={`${key}-${index}`}>
-                    <code>{key}</code>
-                    <span>{value}</span>
-                  </div>
-                ))}
+                {parsed.params.map(
+                  ([key, value], index) => (
+                    <div
+                      className="claim-row"
+                      key={`${key}-${index}`}
+                    >
+                      <code>{key}</code>
+                      <span>{value}</span>
+                    </div>
+                  )
+                )}
               </div>
             ) : (
-              <div className="empty-inline">No query parameters.</div>
+              <div className="empty-inline">
+                No query parameters.
+              </div>
             )}
           </div>
         </div>
@@ -1531,31 +2606,59 @@ function UrlTool({ notify }) {
 }
 
 function TimestampTool({ notify }) {
-  const [timestamp, setTimestamp] = useState(String(Math.floor(Date.now() / 1000)));
-  const [date, setDate] = useState(new Date().toISOString().slice(0, 16));
+  const [timestamp, setTimestamp] =
+    useState(
+      String(
+        Math.floor(Date.now() / 1000)
+      )
+    );
 
-  const unixDate = new Date(Number(timestamp) * 1000);
+  const [date, setDate] =
+    useState(
+      new Date()
+        .toISOString()
+        .slice(0, 16)
+    );
+
+  const unixDate = new Date(
+    Number(timestamp) * 1000
+  );
 
   const convertToDate = () => {
-    const result = new Date(Number(timestamp) * 1000);
+    const result = new Date(
+      Number(timestamp) * 1000
+    );
 
-    if (Number.isNaN(result.getTime())) {
+    if (
+      Number.isNaN(
+        result.getTime()
+      )
+    ) {
       notify("Invalid timestamp");
       return;
     }
 
-    setDate(result.toISOString().slice(0, 16));
+    setDate(
+      result
+        .toISOString()
+        .slice(0, 16)
+    );
   };
 
   const convertToUnix = () => {
-    const result = new Date(date).getTime();
+    const result =
+      new Date(date).getTime();
 
     if (Number.isNaN(result)) {
       notify("Invalid date");
       return;
     }
 
-    setTimestamp(String(Math.floor(result / 1000)));
+    setTimestamp(
+      String(
+        Math.floor(result / 1000)
+      )
+    );
   };
 
   return (
@@ -1568,22 +2671,34 @@ function TimestampTool({ notify }) {
       <div className="timestamp-grid">
         <div className="utility-card">
           <div className="utility-card-title">
-            <span>Unix Timestamp</span>
+            <span>
+              Unix Timestamp
+            </span>
+
             <code>SECONDS</code>
           </div>
 
           <input
             className="large-input"
             value={timestamp}
-            onChange={(event) => setTimestamp(event.target.value)}
+            onChange={(event) =>
+              setTimestamp(
+                event.target.value
+              )
+            }
           />
 
-          <button className="button primary full" onClick={convertToDate}>
+          <button
+            className="button primary full"
+            onClick={convertToDate}
+          >
             Convert to date
           </button>
 
           <div className="timestamp-preview">
-            {Number.isNaN(unixDate.getTime())
+            {Number.isNaN(
+              unixDate.getTime()
+            )
               ? "Invalid timestamp"
               : unixDate.toISOString()}
           </div>
@@ -1599,10 +2714,17 @@ function TimestampTool({ notify }) {
             className="large-input"
             type="datetime-local"
             value={date}
-            onChange={(event) => setDate(event.target.value)}
+            onChange={(event) =>
+              setDate(
+                event.target.value
+              )
+            }
           />
 
-          <button className="button primary full" onClick={convertToUnix}>
+          <button
+            className="button primary full"
+            onClick={convertToUnix}
+          >
             Convert to Unix
           </button>
 
@@ -1616,11 +2738,12 @@ function TimestampTool({ notify }) {
 }
 
 function UuidTool({ notify }) {
-  const [uuids, setUuids] = useState(() => [
-    crypto.randomUUID(),
-    crypto.randomUUID(),
-    crypto.randomUUID()
-  ]);
+  const [uuids, setUuids] =
+    useState(() => [
+      crypto.randomUUID(),
+      crypto.randomUUID(),
+      crypto.randomUUID()
+    ]);
 
   const generate = () => {
     setUuids((current) => [
@@ -1642,12 +2765,18 @@ function UuidTool({ notify }) {
       badge="UTILITY"
       actions={
         <>
-          <button className="button secondary" onClick={clear}>
+          <button
+            className="button secondary"
+            onClick={clear}
+          >
             <Trash2 size={13} />
             Clear
           </button>
 
-          <button className="button primary" onClick={generate}>
+          <button
+            className="button primary"
+            onClick={generate}
+          >
             <Plus size={13} />
             Generate
           </button>
@@ -1655,26 +2784,41 @@ function UuidTool({ notify }) {
       }
     >
       <div className="uuid-list">
-        {uuids.map((uuid, index) => (
-          <div className="uuid-row" key={`${uuid}-${index}`}>
-            <span>{String(index + 1).padStart(2, "0")}</span>
-            <code>{uuid}</code>
-
-            <button
-              className="editor-action"
-              onClick={() => copyText(uuid, notify)}
+        {uuids.map(
+          (uuid, index) => (
+            <div
+              className="uuid-row"
+              key={`${uuid}-${index}`}
             >
-              <Copy size={13} />
-              Copy
-            </button>
-          </div>
-        ))}
+              <span>
+                {String(index + 1).padStart(
+                  2,
+                  "0"
+                )}
+              </span>
+
+              <code>{uuid}</code>
+
+              <button
+                className="editor-action"
+                onClick={() =>
+                  copyText(uuid, notify)
+                }
+              >
+                <Copy size={13} />
+                Copy
+              </button>
+            </div>
+          )
+        )}
       </div>
 
       {!uuids.length && (
         <div className="empty-result">
           <Fingerprint size={18} />
-          <span>Generate a UUID to get started.</span>
+          <span>
+            Generate a UUID to get started.
+          </span>
         </div>
       )}
     </ToolShell>
@@ -1682,18 +2826,41 @@ function UuidTool({ notify }) {
 }
 
 function HashTool({ notify }) {
-  const [input, setInput] = useState("");
-  const [algorithm, setAlgorithm] = useState("SHA-256");
-  const [hash, setHash] = useState("");
+  const [input, setInput] =
+    useState("");
+
+  const [algorithm, setAlgorithm] =
+    useState("SHA-256");
+
+  const [hash, setHash] =
+    useState("");
 
   const generate = async () => {
-    const bytes = new TextEncoder().encode(input);
-    const buffer = await crypto.subtle.digest(algorithm, bytes);
-    const result = [...new Uint8Array(buffer)]
-      .map((byte) => byte.toString(16).padStart(2, "0"))
-      .join("");
+    try {
+      const bytes =
+        new TextEncoder().encode(input);
 
-    setHash(result);
+      const buffer =
+        await crypto.subtle.digest(
+          algorithm,
+          bytes
+        );
+
+      const result = [
+        ...new Uint8Array(buffer)
+      ]
+        .map((byte) =>
+          byte
+            .toString(16)
+            .padStart(2, "0")
+        )
+        .join("");
+
+      setHash(result);
+      notify("Hash generated");
+    } catch {
+      notify("Hash generation failed");
+    }
   };
 
   return (
@@ -1703,7 +2870,10 @@ function HashTool({ notify }) {
       icon={Hash}
       badge="UTILITY"
       actions={
-        <button className="button primary" onClick={generate}>
+        <button
+          className="button primary"
+          onClick={generate}
+        >
           <Hash size={13} />
           Generate
         </button>
@@ -1712,10 +2882,15 @@ function HashTool({ notify }) {
       <div className="hash-controls">
         <div className="field">
           <label>Algorithm</label>
+
           <select
             className="input"
             value={algorithm}
-            onChange={(event) => setAlgorithm(event.target.value)}
+            onChange={(event) =>
+              setAlgorithm(
+                event.target.value
+              )
+            }
           >
             <option>SHA-1</option>
             <option>SHA-256</option>
@@ -1729,7 +2904,9 @@ function HashTool({ notify }) {
         title="INPUT"
         value={input}
         onChange={setInput}
-        onCopy={() => copyText(input, notify)}
+        onCopy={() =>
+          copyText(input, notify)
+        }
         onClear={() => {
           setInput("");
           setHash("");
@@ -1740,32 +2917,52 @@ function HashTool({ notify }) {
       <div className="single-output hash-output">
         <div className="result-header">
           <span>{algorithm}</span>
-          <button onClick={() => copyText(hash, notify)}>
+
+          <button
+            onClick={() =>
+              copyText(hash, notify)
+            }
+          >
             <Copy size={13} />
           </button>
         </div>
 
-        <code>{hash || "Hash output will appear here."}</code>
+        <code>
+          {hash ||
+            "Hash output will appear here."}
+        </code>
       </div>
     </ToolShell>
   );
 }
 
 function PasswordTool({ notify }) {
-  const [length, setLength] = useState(20);
-  const [password, setPassword] = useState("");
+  const [length, setLength] =
+    useState(20);
+
+  const [password, setPassword] =
+    useState("");
 
   const generate = () => {
     const chars =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}";
 
-    const values = new Uint32Array(length);
+    const values =
+      new Uint32Array(length);
+
     crypto.getRandomValues(values);
 
     let result = "";
 
-    for (let i = 0; i < values.length; i++) {
-      result += chars[values[i] % chars.length];
+    for (
+      let i = 0;
+      i < values.length;
+      i++
+    ) {
+      result +=
+        chars[
+          values[i] % chars.length
+        ];
     }
 
     setPassword(result);
@@ -1778,7 +2975,10 @@ function PasswordTool({ notify }) {
       icon={ShieldCheck}
       badge="SECURITY"
       actions={
-        <button className="button primary" onClick={generate}>
+        <button
+          className="button primary"
+          onClick={generate}
+        >
           <RefreshCw size={13} />
           Generate
         </button>
@@ -1786,12 +2986,20 @@ function PasswordTool({ notify }) {
     >
       <div className="password-card">
         <div className="password-output">
-          <code>{password || "Generate a password"}</code>
+          <code>
+            {password ||
+              "Generate a password"}
+          </code>
 
           <button
             className="button secondary"
             disabled={!password}
-            onClick={() => copyText(password, notify)}
+            onClick={() =>
+              copyText(
+                password,
+                notify
+              )
+            }
           >
             <Copy size={13} />
             Copy
@@ -1800,7 +3008,10 @@ function PasswordTool({ notify }) {
 
         <div className="password-settings">
           <div>
-            <span>Password length</span>
+            <span>
+              Password length
+            </span>
+
             <strong>{length}</strong>
           </div>
 
@@ -1809,15 +3020,24 @@ function PasswordTool({ notify }) {
             min="8"
             max="64"
             value={length}
-            onChange={(event) => setLength(Number(event.target.value))}
+            onChange={(event) =>
+              setLength(
+                Number(
+                  event.target.value
+                )
+              )
+            }
           />
         </div>
       </div>
 
       <div className="security-warning">
         <ShieldCheck size={15} />
+
         <span>
-          Passwords are generated using the browser's cryptographic random number generator.
+          Passwords are generated using
+          the browser's cryptographic
+          random number generator.
         </span>
       </div>
     </ToolShell>
@@ -1825,34 +3045,55 @@ function PasswordTool({ notify }) {
 }
 
 function HttpTool() {
-  const [selected, setSelected] = useState(404);
-  const entries = Object.entries(HTTP_CODES);
+  const [selected, setSelected] =
+    useState(404);
+
+  const entries =
+    Object.entries(HTTP_CODES);
 
   return (
     <ToolShell
       title="HTTP Status"
       description="Quick reference for common HTTP response status codes."
-      icon={Zap}
+      icon={Activity}
       badge="UTILITY"
     >
       <div className="http-layout">
         <div className="http-code-list">
-          {entries.map(([code, info]) => (
-            <button
-              key={code}
-              className={Number(code) === selected ? "active" : ""}
-              onClick={() => setSelected(Number(code))}
-            >
-              <span>{code}</span>
-              <strong>{info[0]}</strong>
-            </button>
-          ))}
+          {entries.map(
+            ([code, info]) => (
+              <button
+                key={code}
+                className={
+                  Number(code) === selected
+                    ? "active"
+                    : ""
+                }
+                onClick={() =>
+                  setSelected(
+                    Number(code)
+                  )
+                }
+              >
+                <span>{code}</span>
+                <strong>{info[0]}</strong>
+              </button>
+            )
+          )}
         </div>
 
         <div className="http-detail">
-          <div className="http-number">{selected}</div>
-          <div className="http-name">{HTTP_CODES[selected][0]}</div>
-          <p>{HTTP_CODES[selected][1]}</p>
+          <div className="http-number">
+            {selected}
+          </div>
+
+          <div className="http-name">
+            {HTTP_CODES[selected][0]}
+          </div>
+
+          <p>
+            {HTTP_CODES[selected][1]}
+          </p>
 
           <div className="http-category">
             {selected >= 500
@@ -1872,16 +3113,34 @@ function HttpTool() {
 }
 
 function ColorTool({ notify }) {
-  const [color, setColor] = useState("#3B82F6");
+  const [color, setColor] =
+    useState("#3B82F6");
 
   const rgb = hexToRgb(color);
+
   const values = rgb
     ? [
-        mixColor(color, "#000000", 0.15),
-        mixColor(color, "#000000", 0.3),
+        mixColor(
+          color,
+          "#000000",
+          0.15
+        ),
+        mixColor(
+          color,
+          "#000000",
+          0.3
+        ),
         color,
-        mixColor(color, "#ffffff", 0.2),
-        mixColor(color, "#ffffff", 0.4)
+        mixColor(
+          color,
+          "#ffffff",
+          0.2
+        ),
+        mixColor(
+          color,
+          "#ffffff",
+          0.4
+        )
       ]
     : [];
 
@@ -1897,19 +3156,33 @@ function ColorTool({ notify }) {
           className="color-picker"
           type="color"
           value={color}
-          onChange={(event) => setColor(event.target.value.toUpperCase())}
+          onChange={(event) =>
+            setColor(
+              event.target.value.toUpperCase()
+            )
+          }
         />
 
         <div className="color-input-wrap">
           <span>HEX</span>
+
           <input
             className="large-input"
             value={color}
-            onChange={(event) => setColor(event.target.value.toUpperCase())}
+            onChange={(event) =>
+              setColor(
+                event.target.value.toUpperCase()
+              )
+            }
           />
         </div>
 
-        <div className="color-preview" style={{ background: color }} />
+        <div
+          className="color-preview"
+          style={{
+            background: color
+          }}
+        />
       </div>
 
       {rgb && (
@@ -1921,12 +3194,22 @@ function ColorTool({ notify }) {
 
           <div>
             <span>RGB</span>
-            <code>rgb({rgb.r}, {rgb.g}, {rgb.b})</code>
+            <code>
+              rgb(
+              {rgb.r}, {rgb.g},{" "}
+              {rgb.b})
+            </code>
           </div>
 
           <div>
             <span>HSL</span>
-            <code>{rgbToHsl(rgb.r, rgb.g, rgb.b)}</code>
+            <code>
+              {rgbToHsl(
+                rgb.r,
+                rgb.g,
+                rgb.b
+              )}
+            </code>
           </div>
         </div>
       )}
@@ -1937,12 +3220,24 @@ function ColorTool({ notify }) {
             key={value}
             className="color-swatch"
             onClick={() => {
-              setColor(value.toUpperCase());
-              notify("Color selected");
+              setColor(
+                value.toUpperCase()
+              );
+
+              notify(
+                "Color selected"
+              );
             }}
           >
-            <span style={{ background: value }} />
-            <code>{value.toUpperCase()}</code>
+            <span
+              style={{
+                background: value
+              }}
+            />
+
+            <code>
+              {value.toUpperCase()}
+            </code>
           </button>
         ))}
       </div>
@@ -1951,28 +3246,37 @@ function ColorTool({ notify }) {
 }
 
 function FocusTimer({ notify }) {
-  const [seconds, setSeconds] = useState(25 * 60);
-  const [running, setRunning] = useState(false);
+  const [seconds, setSeconds] =
+    useState(25 * 60);
+
+  const [running, setRunning] =
+    useState(false);
 
   useEffect(() => {
     if (!running) return;
 
-    const interval = setInterval(() => {
-      setSeconds((value) => {
-        if (value <= 1) {
-          setRunning(false);
-          notify("Focus session complete");
-          return 0;
-        }
+    const interval =
+      setInterval(() => {
+        setSeconds((value) => {
+          if (value <= 1) {
+            setRunning(false);
+            notify(
+              "Focus session complete"
+            );
+            return 0;
+          }
 
-        return value - 1;
-      });
-    }, 1000);
+          return value - 1;
+        });
+      }, 1000);
 
-    return () => clearInterval(interval);
-  }, [running, notify]);
+    return () =>
+      clearInterval(interval);
+  }, [running]);
 
-  const minutes = Math.floor(seconds / 60)
+  const minutes = Math.floor(
+    seconds / 60
+  )
     .toString()
     .padStart(2, "0");
 
@@ -1980,7 +3284,12 @@ function FocusTimer({ notify }) {
     .toString()
     .padStart(2, "0");
 
-  const presets = [15, 25, 45, 60];
+  const presets = [
+    15,
+    25,
+    45,
+    60
+  ];
 
   return (
     <ToolShell
@@ -1997,15 +3306,23 @@ function FocusTimer({ notify }) {
         </div>
 
         <div className="timer-state">
-          {running ? "SESSION RUNNING" : "READY TO FOCUS"}
+          {running
+            ? "SESSION RUNNING"
+            : "READY TO FOCUS"}
         </div>
 
         <div className="timer-actions">
           <button
             className="button primary large-button"
-            onClick={() => setRunning((value) => !value)}
+            onClick={() =>
+              setRunning(
+                (value) => !value
+              )
+            }
           >
-            {running ? "Pause" : "Start Session"}
+            {running
+              ? "Pause"
+              : "Start Session"}
           </button>
 
           <button
@@ -2020,17 +3337,21 @@ function FocusTimer({ notify }) {
         </div>
 
         <div className="timer-presets">
-          {presets.map((preset) => (
-            <button
-              key={preset}
-              onClick={() => {
-                setRunning(false);
-                setSeconds(preset * 60);
-              }}
-            >
-              {preset}m
-            </button>
-          ))}
+          {presets.map(
+            (preset) => (
+              <button
+                key={preset}
+                onClick={() => {
+                  setRunning(false);
+                  setSeconds(
+                    preset * 60
+                  );
+                }}
+              >
+                {preset}m
+              </button>
+            )
+          )}
         </div>
       </div>
     </ToolShell>
@@ -2038,29 +3359,54 @@ function FocusTimer({ notify }) {
 }
 
 function Snippets({ notify }) {
-  const [snippets, setSnippets] = useState(() =>
-    readStorage("devdock-snippets", INITIAL_SNIPPETS)
-  );
-  const [selected, setSelected] = useState(snippets[0]?.id || null);
-  const [query, setQuery] = useState("");
+  const [snippets, setSnippets] =
+    useState(() =>
+      readStorage(
+        "devdock-snippets",
+        INITIAL_SNIPPETS
+      )
+    );
+
+  const [selected, setSelected] =
+    useState(
+      snippets[0]?.id || null
+    );
+
+  const [query, setQuery] =
+    useState("");
 
   useEffect(() => {
-    localStorage.setItem("devdock-snippets", JSON.stringify(snippets));
+    localStorage.setItem(
+      "devdock-snippets",
+      JSON.stringify(snippets)
+    );
   }, [snippets]);
 
-  const current = snippets.find((snippet) => snippet.id === selected);
-
-  const filtered = snippets.filter((snippet) =>
-    `${snippet.title} ${snippet.language} ${snippet.code}`
-      .toLowerCase()
-      .includes(query.toLowerCase())
+  const current = snippets.find(
+    (snippet) =>
+      snippet.id === selected
   );
 
-  const updateCurrent = (key, value) => {
+  const filtered = snippets.filter(
+    (snippet) =>
+      `${snippet.title} ${snippet.language} ${snippet.code}`
+        .toLowerCase()
+        .includes(
+          query.toLowerCase()
+        )
+  );
+
+  const updateCurrent = (
+    key,
+    value
+  ) => {
     setSnippets((items) =>
       items.map((snippet) =>
         snippet.id === selected
-          ? { ...snippet, [key]: value }
+          ? {
+              ...snippet,
+              [key]: value
+            }
           : snippet
       )
     );
@@ -2074,15 +3420,30 @@ function Snippets({ notify }) {
       code: ""
     };
 
-    setSnippets((items) => [snippet, ...items]);
+    setSnippets((items) => [
+      snippet,
+      ...items
+    ]);
+
     setSelected(snippet.id);
   };
 
   const deleteCurrent = () => {
-    setSnippets((items) => items.filter((snippet) => snippet.id !== selected));
+    setSnippets((items) =>
+      items.filter(
+        (snippet) =>
+          snippet.id !== selected
+      )
+    );
 
-    const next = snippets.find((snippet) => snippet.id !== selected);
-    setSelected(next?.id || null);
+    const next = snippets.find(
+      (snippet) =>
+        snippet.id !== selected
+    );
+
+    setSelected(
+      next?.id || null
+    );
 
     notify("Snippet deleted");
   };
@@ -2094,7 +3455,10 @@ function Snippets({ notify }) {
       icon={FileCode2}
       badge="WORKSPACE"
       actions={
-        <button className="button primary" onClick={addSnippet}>
+        <button
+          className="button primary"
+          onClick={addSnippet}
+        >
           <Plus size={13} />
           New Snippet
         </button>
@@ -2104,24 +3468,44 @@ function Snippets({ notify }) {
         <div className="snippet-sidebar">
           <div className="snippet-search">
             <Search size={13} />
+
             <input
               value={query}
-              onChange={(event) => setQuery(event.target.value)}
+              onChange={(event) =>
+                setQuery(
+                  event.target.value
+                )
+              }
               placeholder="Search snippets..."
             />
           </div>
 
           <div className="snippet-items">
-            {filtered.map((snippet) => (
-              <button
-                key={snippet.id}
-                className={selected === snippet.id ? "active" : ""}
-                onClick={() => setSelected(snippet.id)}
-              >
-                <strong>{snippet.title}</strong>
-                <span>{snippet.language}</span>
-              </button>
-            ))}
+            {filtered.map(
+              (snippet) => (
+                <button
+                  key={snippet.id}
+                  className={
+                    selected === snippet.id
+                      ? "active"
+                      : ""
+                  }
+                  onClick={() =>
+                    setSelected(
+                      snippet.id
+                    )
+                  }
+                >
+                  <strong>
+                    {snippet.title}
+                  </strong>
+
+                  <span>
+                    {snippet.language}
+                  </span>
+                </button>
+              )
+            )}
           </div>
         </div>
 
@@ -2133,21 +3517,37 @@ function Snippets({ notify }) {
                   className="input"
                   value={current.title}
                   onChange={(event) =>
-                    updateCurrent("title", event.target.value)
+                    updateCurrent(
+                      "title",
+                      event.target.value
+                    )
                   }
                 />
 
                 <select
                   className="input language-select"
-                  value={current.language}
+                  value={
+                    current.language
+                  }
                   onChange={(event) =>
-                    updateCurrent("language", event.target.value)
+                    updateCurrent(
+                      "language",
+                      event.target.value
+                    )
                   }
                 >
-                  <option>JavaScript</option>
-                  <option>React</option>
-                  <option>TypeScript</option>
-                  <option>Node.js</option>
+                  <option>
+                    JavaScript
+                  </option>
+                  <option>
+                    React
+                  </option>
+                  <option>
+                    TypeScript
+                  </option>
+                  <option>
+                    Node.js
+                  </option>
                   <option>CSS</option>
                   <option>HTML</option>
                   <option>Python</option>
@@ -2156,7 +3556,12 @@ function Snippets({ notify }) {
 
                 <button
                   className="button secondary"
-                  onClick={() => copyText(current.code, notify)}
+                  onClick={() =>
+                    copyText(
+                      current.code,
+                      notify
+                    )
+                  }
                 >
                   <Copy size={13} />
                   Copy
@@ -2164,7 +3569,9 @@ function Snippets({ notify }) {
 
                 <button
                   className="icon-danger"
-                  onClick={deleteCurrent}
+                  onClick={
+                    deleteCurrent
+                  }
                   aria-label="Delete snippet"
                 >
                   <Trash2 size={14} />
@@ -2175,7 +3582,10 @@ function Snippets({ notify }) {
                 className="code-editor snippet-code"
                 value={current.code}
                 onChange={(event) =>
-                  updateCurrent("code", event.target.value)
+                  updateCurrent(
+                    "code",
+                    event.target.value
+                  )
                 }
                 spellCheck="false"
               />
@@ -2183,7 +3593,10 @@ function Snippets({ notify }) {
           ) : (
             <div className="empty-result">
               <FileCode2 size={18} />
-              <span>Create a snippet to get started.</span>
+              <span>
+                Create a snippet to
+                get started.
+              </span>
             </div>
           )}
         </div>
@@ -2192,48 +3605,89 @@ function Snippets({ notify }) {
   );
 }
 
-function CommandPalette({ search, setSearch, openTool }) {
-  const query = search.toLowerCase().trim();
+function CommandPalette({
+  search,
+  setSearch,
+  openTool
+}) {
+  const query =
+    search.toLowerCase().trim();
 
-  const results = ALL_TOOLS.filter((tool) =>
-    `${tool.name} ${tool.description} ${tool.keywords}`
-      .toLowerCase()
-      .includes(query)
+  const profileCommand = {
+    id: "profile",
+    name: "Profile",
+    icon: UserRound,
+    description:
+      "Edit your developer profile",
+    keywords:
+      "profile account user settings developer"
+  };
+
+  const commands = [
+    profileCommand,
+    ...ALL_TOOLS
+  ];
+
+  const results = commands.filter(
+    (item) =>
+      `${item.name} ${item.description} ${item.keywords}`
+        .toLowerCase()
+        .includes(query)
   );
 
   return (
-    <div className="command-overlay" onClick={() => openTool("overview")}>
+    <div
+      className="command-overlay"
+      onClick={() => {
+        setSearch("");
+      }}
+    >
       <div
         className="command-modal"
-        onClick={(event) => event.stopPropagation()}
+        onClick={(event) =>
+          event.stopPropagation()
+        }
       >
         <div className="command-input">
           <Search size={16} />
+
           <input
             autoFocus
             value={search}
-            onChange={(event) => setSearch(event.target.value)}
+            onChange={(event) =>
+              setSearch(
+                event.target.value
+              )
+            }
             placeholder="Search DevDock..."
           />
+
           <kbd>ESC</kbd>
         </div>
 
         <div className="command-results">
-          {results.map((tool) => {
-            const Icon = tool.icon;
+          {results.map((item) => {
+            const Icon = item.icon;
 
             return (
               <button
-                key={tool.id}
-                onClick={() => openTool(tool.id)}
+                key={item.id}
+                onClick={() =>
+                  openTool(item.id)
+                }
               >
                 <div className="command-result-icon">
                   <Icon size={15} />
                 </div>
 
                 <div>
-                  <strong>{tool.name}</strong>
-                  <span>{tool.description}</span>
+                  <strong>
+                    {item.name}
+                  </strong>
+
+                  <span>
+                    {item.description}
+                  </span>
                 </div>
 
                 <ChevronRight size={14} />
@@ -2244,7 +3698,11 @@ function CommandPalette({ search, setSearch, openTool }) {
           {!results.length && (
             <div className="command-empty">
               <Search size={17} />
-              <span>No tools found for "{search}".</span>
+
+              <span>
+                No results for
+                "{search}".
+              </span>
             </div>
           )}
         </div>
@@ -2253,9 +3711,11 @@ function CommandPalette({ search, setSearch, openTool }) {
           <span>
             <kbd>↑↓</kbd> Navigate
           </span>
+
           <span>
             <kbd>↵</kbd> Open
           </span>
+
           <span>
             <kbd>ESC</kbd> Close
           </span>
@@ -2265,24 +3725,30 @@ function CommandPalette({ search, setSearch, openTool }) {
   );
 }
 
-function ClockIcon() {
-  return (
-    <Activity size={17} />
-  );
-}
-
 function sortObject(value) {
   if (Array.isArray(value)) {
     return value.map(sortObject);
   }
 
-  if (value && typeof value === "object") {
+  if (
+    value &&
+    typeof value === "object"
+  ) {
     return Object.keys(value)
-      .sort((a, b) => a.localeCompare(b))
-      .reduce((result, key) => {
-        result[key] = sortObject(value[key]);
-        return result;
-      }, {});
+      .sort((a, b) =>
+        a.localeCompare(b)
+      )
+      .reduce(
+        (result, key) => {
+          result[key] =
+            sortObject(
+              value[key]
+            );
+
+          return result;
+        },
+        {}
+      );
   }
 
   return value;
@@ -2292,22 +3758,42 @@ function base64UrlDecode(value) {
   const normalized = value
     .replace(/-/g, "+")
     .replace(/_/g, "/")
-    .padEnd(Math.ceil(value.length / 4) * 4, "=");
+    .padEnd(
+      Math.ceil(value.length / 4) * 4,
+      "="
+    );
 
-  return decodeURIComponent(
-    atob(normalized)
-      .split("")
-      .map((char) => `%${char.charCodeAt(0).toString(16).padStart(2, "0")}`)
-      .join("")
+  const binary = atob(normalized);
+
+  const bytes = Uint8Array.from(
+    binary,
+    (char) =>
+      char.charCodeAt(0)
+  );
+
+  return new TextDecoder().decode(
+    bytes
   );
 }
 
 function formatUnix(value) {
-  if (typeof value !== "number") return String(value);
+  if (
+    typeof value !== "number"
+  ) {
+    return String(value);
+  }
 
-  const date = new Date(value * 1000);
+  const date = new Date(
+    value * 1000
+  );
 
-  if (Number.isNaN(date.getTime())) return String(value);
+  if (
+    Number.isNaN(
+      date.getTime()
+    )
+  ) {
+    return String(value);
+  }
 
   return `${value} · ${date.toISOString()}`;
 }
@@ -2318,78 +3804,158 @@ function copyText(text, notify) {
     return;
   }
 
-  navigator.clipboard.writeText(text)
-    .then(() => notify("Copied to clipboard"))
-    .catch(() => notify("Copy failed"));
+  navigator.clipboard
+    .writeText(text)
+    .then(() =>
+      notify(
+        "Copied to clipboard"
+      )
+    )
+    .catch(() =>
+      notify("Copy failed")
+    );
 }
 
-function createDiff(left, right, ignoreWhitespace) {
+function createDiff(
+  left,
+  right,
+  ignoreWhitespace
+) {
   const a = left.split("\n");
   const b = right.split("\n");
 
   const normalize = (line) =>
-    ignoreWhitespace ? line.replace(/\s+/g, "") : line;
+    ignoreWhitespace
+      ? line.replace(/\s+/g, "")
+      : line;
 
   const dp = Array.from(
-    { length: a.length + 1 },
-    () => Array(b.length + 1).fill(0)
+    {
+      length: a.length + 1
+    },
+    () =>
+      Array(
+        b.length + 1
+      ).fill(0)
   );
 
-  for (let i = a.length - 1; i >= 0; i--) {
-    for (let j = b.length - 1; j >= 0; j--) {
+  for (
+    let i = a.length - 1;
+    i >= 0;
+    i--
+  ) {
+    for (
+      let j = b.length - 1;
+      j >= 0;
+      j--
+    ) {
       dp[i][j] =
-        normalize(a[i]) === normalize(b[j])
+        normalize(a[i]) ===
+        normalize(b[j])
           ? dp[i + 1][j + 1] + 1
-          : Math.max(dp[i + 1][j], dp[i][j + 1]);
+          : Math.max(
+              dp[i + 1][j],
+              dp[i][j + 1]
+            );
     }
   }
 
   const lines = [];
+
   let i = 0;
   let j = 0;
 
-  while (i < a.length && j < b.length) {
-    if (normalize(a[i]) === normalize(b[j])) {
-      lines.push({ type: "same", text: a[i] });
+  while (
+    i < a.length &&
+    j < b.length
+  ) {
+    if (
+      normalize(a[i]) ===
+      normalize(b[j])
+    ) {
+      lines.push({
+        type: "same",
+        text: a[i]
+      });
+
       i++;
       j++;
-    } else if (dp[i + 1][j] >= dp[i][j + 1]) {
-      lines.push({ type: "removed", text: a[i] });
+    } else if (
+      dp[i + 1][j] >=
+      dp[i][j + 1]
+    ) {
+      lines.push({
+        type: "removed",
+        text: a[i]
+      });
+
       i++;
     } else {
-      lines.push({ type: "added", text: b[j] });
+      lines.push({
+        type: "added",
+        text: b[j]
+      });
+
       j++;
     }
   }
 
   while (i < a.length) {
-    lines.push({ type: "removed", text: a[i] });
+    lines.push({
+      type: "removed",
+      text: a[i]
+    });
+
     i++;
   }
 
   while (j < b.length) {
-    lines.push({ type: "added", text: b[j] });
+    lines.push({
+      type: "added",
+      text: b[j]
+    });
+
     j++;
   }
 
   return {
     lines,
-    added: lines.filter((line) => line.type === "added").length,
-    removed: lines.filter((line) => line.type === "removed").length
+    added: lines.filter(
+      (line) =>
+        line.type === "added"
+    ).length,
+    removed: lines.filter(
+      (line) =>
+        line.type === "removed"
+    ).length
   };
 }
 
 function hexToRgb(hex) {
-  const value = hex.replace("#", "");
+  const value =
+    hex.replace("#", "");
 
-  if (!/^[0-9a-fA-F]{6}$/.test(value)) {
+  if (
+    !/^[0-9a-fA-F]{6}$/.test(
+      value
+    )
+  ) {
     return null;
   }
 
   return {
-    r: parseInt(value.slice(0, 2), 16),
-    g: parseInt(value.slice(2, 4), 16),
-    b: parseInt(value.slice(4, 6), 16)
+    r: parseInt(
+      value.slice(0, 2),
+      16
+    ),
+    g: parseInt(
+      value.slice(2, 4),
+      16
+    ),
+    b: parseInt(
+      value.slice(4, 6),
+      16
+    )
   };
 }
 
@@ -2398,53 +3964,115 @@ function rgbToHsl(r, g, b) {
   g /= 255;
   b /= 255;
 
-  const max = Math.max(r, g, b);
-  const min = Math.min(r, g, b);
+  const max = Math.max(
+    r,
+    g,
+    b
+  );
+
+  const min = Math.min(
+    r,
+    g,
+    b
+  );
 
   let h = 0;
   let s = 0;
-  const l = (max + min) / 2;
+
+  const l =
+    (max + min) / 2;
 
   if (max !== min) {
-    const d = max - min;
+    const d =
+      max - min;
 
-    s = l > 0.5
-      ? d / (2 - max - min)
-      : d / (max + min);
+    s =
+      l > 0.5
+        ? d /
+          (2 - max - min)
+        : d /
+          (max + min);
 
     switch (max) {
       case r:
-        h = (g - b) / d + (g < b ? 6 : 0);
+        h =
+          (g - b) /
+            d +
+          (g < b ? 6 : 0);
         break;
+
       case g:
-        h = (b - r) / d + 2;
+        h =
+          (b - r) /
+            d +
+          2;
         break;
+
       default:
-        h = (r - g) / d + 4;
+        h =
+          (r - g) /
+            d +
+          4;
     }
 
     h /= 6;
   }
 
-  return `${Math.round(h * 360)} ${Math.round(s * 100)}% ${Math.round(l * 100)}%`;
+  return `${Math.round(
+    h * 360
+  )} ${Math.round(
+    s * 100
+  )}% ${Math.round(
+    l * 100
+  )}%`;
 }
 
-function mixColor(hex, target, amount) {
+function mixColor(
+  hex,
+  target,
+  amount
+) {
   const a = hexToRgb(hex);
   const b = hexToRgb(target);
 
-  if (!a || !b) return hex;
+  if (!a || !b) {
+    return hex;
+  }
 
-  const r = Math.round(a.r + (b.r - a.r) * amount);
-  const g = Math.round(a.g + (b.g - a.g) * amount);
-  const bl = Math.round(a.b + (b.b - a.b) * amount);
+  const r = Math.round(
+    a.r +
+      (b.r - a.r) *
+        amount
+  );
 
-  return `#${[r, g, bl]
-    .map((value) => value.toString(16).padStart(2, "0"))
+  const g = Math.round(
+    a.g +
+      (b.g - a.g) *
+        amount
+  );
+
+  const bl = Math.round(
+    a.b +
+      (b.b - a.b) *
+        amount
+  );
+
+  return `#${[
+    r,
+    g,
+    bl
+  ]
+    .map((value) =>
+      value
+        .toString(16)
+        .padStart(2, "0")
+    )
     .join("")}`;
 }
 
-createRoot(document.getElementById("root")).render(
+createRoot(
+  document.getElementById("root")
+).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>
