@@ -41,8 +41,6 @@ Instead of opening multiple websites for JSON formatting, Base64 encoding, UUID 
 
 ## Preview
 
-> Add your real screenshot here as `preview.png`.
-
 <p align="center">
   <img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/42d79759-c6af-423b-86f6-6ac60cdf8aa4" />
   <img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/893c6268-3338-48fa-a996-1e0d2c619ff9" />
