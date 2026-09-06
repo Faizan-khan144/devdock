@@ -1,398 +1,255 @@
-# 🚀 DevDock
+# DevDock
 
 <div align="center">
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=28&duration=2800&pause=900&color=6366F1&center=true&vCenter=true&width=700&lines=DevDock+%E2%80%94+Developer+Workspace;Your+Everyday+Developer+Toolkit;Build+%E2%80%A2+Test+%E2%80%A2+Create+%E2%80%A2+Ship" alt="DevDock typing animation" />
+<img src="https://readme-typing-svg.demolab.com?font=Inter&weight=600&size=28&duration=2800&pause=900&color=2563EB&center=true&vCenter=true&width=750&lines=Developer+Workspace;Your+Everyday+Developer+Toolkit;Build+%E2%80%A2+Test+%E2%80%A2+Create+%E2%80%A2+Ship" />
 
-<br/>
+<br>
 
-**A modern, local-first developer workspace built for everyday coding.**
+<p>
+  <strong>A clean, local-first developer workspace for everyday coding.</strong>
+</p>
 
-<br/>
+<br>
 
-[![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge\&logo=react\&logoColor=white)](https://react.dev/)
-[![JavaScript](https://img.shields.io/badge/JavaScript-ES6%2B-F7DF1E?style=for-the-badge\&logo=javascript\&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![CSS](https://img.shields.io/badge/CSS-Custom-1572B6?style=for-the-badge\&logo=css3\&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
-[![Lucide](https://img.shields.io/badge/Lucide-Icons-black?style=for-the-badge\&logo=lucide)](https://lucide.dev/)
-[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+<a href="https://faizan-khan144.github.io/devdock/">
+<img src="https://img.shields.io/badge/LIVE%20DEMO-2563EB?style=for-the-badge&logo=googlechrome&logoColor=white">
+</a>
 
-<br/>
+<a href="https://github.com/Faizan-khan144/devdock">
+<img src="https://img.shields.io/badge/SOURCE%20CODE-111827?style=for-the-badge&logo=github&logoColor=white">
+</a>
 
-⭐ **If DevDock helps you, consider giving the repo a star!**
-🍴 **Fork it, customize it, and make it yours!**
+<br><br>
+
+<img src="https://img.shields.io/github/stars/Faizan-khan144/devdock?style=flat-square&logo=github&label=Stars">
+<img src="https://img.shields.io/github/forks/Faizan-khan144/devdock?style=flat-square&logo=github&label=Forks">
+<img src="https://img.shields.io/github/issues/Faizan-khan144/devdock?style=flat-square&logo=github&label=Issues">
+<img src="https://img.shields.io/github/license/Faizan-khan144/devdock?style=flat-square&label=License">
 
 </div>
 
 ---
 
-## 🧑‍💻 What is DevDock?
+<div align="center">
 
-**DevDock** is an all-in-one developer workspace that brings useful coding utilities, productivity tools, and everyday developer helpers into a single clean interface.
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0:eff6ff,100:ffffff&height=2&section=header">
 
-Instead of opening multiple websites for JSON formatting, Base64 conversion, UUID generation, password generation, regex testing, color manipulation, and snippets — **DevDock puts them together in one place.**
+</div>
 
-> ⚡ **One workspace. Multiple developer tools. Zero unnecessary complexity.**
+## About
+
+DevDock is an all-in-one developer workspace that brings everyday developer utilities and productivity tools into one focused interface.
+
+Instead of keeping multiple websites open for JSON, Base64, UUIDs, regex, colors, passwords, snippets, and productivity, DevDock puts them together in one workspace.
+
+> One workspace. Multiple tools. Zero unnecessary complexity.
 
 ---
 
-## ✨ Features
+## Preview
 
-### 🛠️ Developer Tools
+<div align="center">
 
-| Tool                      | What it does                                               |
-| ------------------------- | ---------------------------------------------------------- |
-| 🧩 **JSON Toolkit**       | Format, validate, minify, copy, and clear JSON             |
-| 🔐 **Base64**             | Encode and decode UTF-8 text                               |
-| 🆔 **UUID Generator**     | Generate UUID v4 identifiers                               |
-| 🔑 **Password Generator** | Generate secure random passwords                           |
-| 🔎 **Regex Tester**       | Test JavaScript regular expressions                        |
-| 🎨 **Color Lab**          | Generate shades, tints, random colors, and copy HEX values |
-| 📝 **Snippets**           | Save and manage reusable code snippets                     |
+<img src="./preview.png" width="900" alt="DevDock Preview">
 
-### ⚡ Productivity
+</div>
 
-* ⏱️ Focus Timer
-* 🔍 Global search
-* ⌨️ `Ctrl/Cmd + K` quick search
-* 🌓 Dark / Light mode
-* 🔔 Toast notifications
-* 💾 Local persistence
-* 📊 Developer dashboard
+---
 
-### 🔒 Local-First
+## Features
+
+<table>
+<tr>
+<td width="50%">
+
+### JSON Toolkit
+
+Format, validate, minify and manage JSON without leaving your workspace.
+
+</td>
+
+<td width="50%">
+
+### Base64
+
+Encode and decode UTF-8 text instantly.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+### UUID Generator
+
+Generate UUID v4 identifiers with one click.
+
+</td>
+
+<td>
+
+### Password Generator
+
+Generate secure random passwords with customizable options.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+### Regex Tester
+
+Test JavaScript regular expressions against your text.
+
+</td>
+
+<td>
+
+### Color Lab
+
+Generate shades, tints and random colors.
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+### Snippets
+
+Keep reusable code snippets organized in one place.
+
+</td>
+
+<td>
+
+### Focus Timer
+
+Stay focused while working inside your developer workspace.
+
+</td>
+</tr>
+</table>
+
+---
+
+## Experience
+
+<div align="center">
+
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=Faizan-khan144&repo=devdock&theme=minimal&hide_border=true&area=true" width="95%">
+
+</div>
+
+---
+
+## Local-First
 
 DevDock is designed with privacy in mind.
 
-Your snippets, preferences, and generated data can stay inside your browser using `localStorage`.
-
-**No unnecessary account. No complicated backend. Just open DevDock and start working.**
-
----
-
-## 🎯 Why DevDock?
-
-Developers constantly jump between different tools.
-
-JSON formatter → another website.
-UUID generator → another tab.
-Regex tester → another tool.
-Color picker → another website.
-Snippets → somewhere else.
-
-**DevDock brings those workflows together.**
+Your snippets, preferences and generated data can remain inside your browser using native browser storage and APIs.
 
 ```text
-        ┌─────────────────────────┐
-        │        DevDock 🚀       │
-        ├─────────────────────────┤
-        │ JSON Toolkit            │
-        │ Base64                   │
-        │ UUID Generator           │
-        │ Password Generator       │
-        │ Regex Tester             │
-        │ Color Lab                │
-        │ Snippets                 │
-        │ Focus Timer              │
-        └─────────────────────────┘
-                  ↓
-          One Developer Workspace
+Browser
+   │
+   ├── localStorage
+   ├── Clipboard API
+   ├── Crypto API
+   └── Native Browser APIs
+          │
+          ▼
+       DevDock 
 ```
-
 ---
 
-## 🖥️ Interface
+No account required for the core experience.
 
-DevDock focuses on a clean developer experience:
-
-* Minimal UI
-* Responsive layout
-* Fast interactions
-* Dark & light themes
-* Consistent icons
-* Clear tool navigation
-* Keyboard-friendly workflow
-
-> Built to feel like a **developer's personal command center.**
-
----
-
-## 🔍 Global Search
-
-Don't waste time searching through menus.
-
-Press:
-
-```text
-Ctrl + K
-```
-
-or on macOS:
-
-```text
-⌘ + K
-```
-
-Then instantly search for tools such as:
-
-```text
-JSON
-Regex
-UUID
-Password
-Base64
-Color
-Snippets
-Timer
-```
-
----
-
-## 🌗 Dark & Light Mode
-
-Switch between themes depending on your workflow.
-
-Your selected theme is automatically saved locally, so DevDock remembers your preference when you come back.
-
----
-
-## 🧠 Built With
-
-### Frontend
-
-* ⚛️ React
-* 🟨 JavaScript
-* 🎨 CSS
-* 🖼️ Lucide React
-* 🌐 Browser APIs
-
-### Browser APIs
-
-DevDock takes advantage of native browser capabilities including:
-
-* `localStorage`
-* `crypto.randomUUID()`
-* `crypto.getRandomValues()`
-* Clipboard API
-* Native color input
-* JavaScript RegExp
-
----
-
-## 📁 Project Structure
-
-```text
-devdock/
-│
-├── src/
-│   ├── App.jsx
-│   ├── styles.css
-│   └── ...
-│
-├── public/
-│
-├── package.json
-├── package-lock.json
-├── index.html
-├── .gitignore
-└── README.md
-```
-
----
-
-## 🚀 Getting Started
-
-Clone the repository:
-
-```bash
+Tech Stack
+<div align="center"> <img src="https://skillicons.dev/icons?i=react,vite,js,css,github" /> </div>
+Keyboard Shortcuts
+Shortcut	Action
+Ctrl + K	Open global search
+⌘ + K	Open global search on macOS
+Getting Started
 git clone https://github.com/Faizan-khan144/devdock.git
-```
 
-Go into the project:
-
-```bash
 cd devdock
-```
 
-Install dependencies:
-
-```bash
 npm install
-```
 
-Start the development server:
-
-```bash
 npm run dev
-```
-
-Then open the local URL shown in your terminal.
-
----
-
-## 🧪 Development
-
-Start the development environment:
-
-```bash
-npm run dev
-```
 
 Build for production:
 
-```bash
 npm run build
-```
+Roadmap
+CURRENT
+  │
+  ├── Developer Dashboard       ✓
+  ├── JSON Toolkit              ✓
+  ├── Base64                    ✓
+  ├── UUID Generator            ✓
+  ├── Password Generator        ✓
+  ├── Regex Tester              ✓
+  ├── Color Lab                 ✓
+  ├── Snippets                  ✓
+  └── Focus Timer               ✓
+  
+NEXT
+  │
+  ├── Snippet Import / Export
+  ├── More Developer Utilities
+  ├── Advanced JSON Tools
+  ├── Custom Themes
+  ├── PWA Support
+  └── Improved Mobile Experience
+Contributing
 
-Preview the production build:
+Contributions, ideas and improvements are welcome.
 
-```bash
-npm run preview
-```
-
----
-
-## 🗺️ Roadmap
-
-DevDock is just getting started.
-
-### ✅ Completed
-
-* [x] Developer dashboard
-* [x] JSON toolkit
-* [x] Base64 encoder / decoder
-* [x] UUID generator
-* [x] Password generator
-* [x] Regex tester
-* [x] Color Lab
-* [x] Snippet manager
-* [x] Focus timer
-* [x] Global search
-* [x] Dark / Light mode
-* [x] Local persistence
-
-### 🔮 Planned
-
-* [ ] Keyboard shortcut manager
-* [ ] More developer utilities
-* [ ] Import / export snippets
-* [ ] Snippet categories
-* [ ] Custom themes
-* [ ] Advanced JSON tools
-* [ ] More productivity utilities
-* [ ] PWA support
-* [ ] Improved mobile experience
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome!
-
-If you have an idea that could make DevDock better:
-
-1. Fork the repository
-2. Create a new branch
-
-```bash
 git checkout -b feature/amazing-feature
-```
 
-3. Make your changes
-4. Commit them
-
-```bash
 git commit -m "Add amazing feature"
-```
 
-5. Push your branch
-
-```bash
 git push origin feature/amazing-feature
-```
 
-6. Open a Pull Request 🚀
+Then open a Pull Request.
 
----
+Support
+<div align="center"> <img src="https://readme-typing-svg.demolab.com?font=Inter&weight=500&size=18&duration=3000&pause=1000&color=2563EB&center=true&vCenter=true&width=600&lines=Found+DevDock+useful%3F;Give+the+repository+a+star.;Help+DevDock+reach+more+developers." />
 
-## 💡 Have an Idea?
+<br><br>
 
-Found a missing developer tool?
-
-Open an issue and suggest it.
-
-Some ideas:
-
-```text
-💡 Feature request
-🐛 Bug report
-🎨 UI improvement
-⚡ Performance improvement
-🛠️ Developer utility
-📱 Mobile improvement
-```
-
-Every useful idea can help make DevDock better.
-
----
-
-## ⭐ Support DevDock
-
-If you like the project, there are a few easy ways to support it:
-
-⭐ **Star the repository**
-
-🍴 **Fork the project**
-
-🐛 **Report bugs**
-
-💡 **Suggest features**
-
-🤝 **Contribute code**
-
-📢 **Share it with other developers**
-
-> A single ⭐ helps more than you think.
-
----
-
-## 📊 Project Status
-
-**DevDock v1.0.0**
-
-The project is actively being developed and improved.
-
-New tools, UI improvements, productivity features, and developer utilities can be added over time.
-
----
-
-## 👨‍💻 Author
-
-**Faizan Khan**
-
-Frontend Developer • MERN Stack Developer • Developer Tools Enthusiast
-
-Building modern web experiences and useful developer-focused projects.
-
----
-
-## 📜 License
-
-This project is licensed under the **MIT License**.
-
-See the [`LICENSE`](LICENSE) file for more information.
-
----
-
+<a href="https://github.com/Faizan-khan144/devdock"> <img src="https://img.shields.io/badge/%E2%98%85%20STAR%20DEVDOCK-2563EB?style=for-the-badge"> </a> </div>
+Author
 <div align="center">
 
-### 🚀 Built for Developers. Made to Ship.
+<strong>Faizan Khan</strong>
 
-**DevDock**
+<br>
 
-⭐ Star it • 🍴 Fork it • 🐛 Improve it • 🚀 Build with it
+Frontend Developer · MERN Stack Developer
 
-<br/>
+<br><br>
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=100&section=footer" />
+Building modern web experiences and useful developer-focused tools.
 
 </div>
+<div align="center"> <img src="https://capsule-render.vercel.app/api?type=waving&color=0:2563EB,100:60A5FA&height=120&section=footer"> </div> ```
+💎 The important difference
+
+Instead of:
+
+🚀 DevDock
+🛠️ Developer Tools
+🔐 Base64
+🎨 Color Lab
+⭐ Support
+
+you get:
+
+animated header → live GitHub stats → screenshot → feature grid → activity graph → tech icons → animated support section → animated footer
+
+That looks MUCH more like a serious GitHub project.
