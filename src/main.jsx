@@ -1,4 +1,6 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { createRoot } from "react-dom/client";
+import "./styles.css";
 import {
   Activity,
   ArrowLeftRight,
@@ -2442,4 +2444,8 @@ function mixColor(hex, target, amount) {
     .join("")}`;
 }
 
-export default App;
+createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
