@@ -1,8 +1,9 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import "./styles.css";
 import {
   Activity,
+  Braces,
   Check,
   ChevronRight,
   Command,
@@ -62,6 +63,13 @@ const TOOL_GROUPS = [
         icon: FileCode2,
         description: "Save reusable code",
         keywords: "code snippets notes"
+      },
+      {
+        id: "settings",
+        name: "Settings",
+        icon: Settings2,
+        description: "Customize your DevDock workspace",
+        keywords: "settings preferences theme density reset"
       }
     ]
   },
@@ -162,6 +170,22 @@ const TOOL_GROUPS = [
         description: "Look up HTTP status codes",
         keywords: "http status codes api"
       }
+    ]
+  },
+  {
+    title: "More Tools",
+    items: [
+      { id: "case", name: "Case Converter", icon: Type, description: "Transform text casing instantly", keywords: "text case uppercase lowercase title camel snake kebab" },
+      { id: "counter", name: "Text Counter", icon: Type, description: "Count characters, words and lines", keywords: "text counter words characters lines" },
+      { id: "lorem", name: "Lorem Ipsum", icon: Type, description: "Generate placeholder text", keywords: "lorem ipsum placeholder dummy text" },
+      { id: "qr", name: "QR Generator", icon: Hash, description: "Generate a QR code from text or URLs", keywords: "qr qrcode barcode link" },
+      { id: "html", name: "HTML Formatter", icon: FileCode2, description: "Format HTML markup cleanly", keywords: "html formatter beautify markup" },
+      { id: "css", name: "CSS Formatter", icon: FileCode2, description: "Format CSS with readable indentation", keywords: "css formatter beautify styles" },
+      { id: "javascript", name: "JavaScript Formatter", icon: FileCode2, description: "Format JavaScript source code", keywords: "javascript js formatter beautify" },
+      { id: "yaml", name: "YAML ↔ JSON", icon: FileJson, description: "Convert common YAML and JSON structures", keywords: "yaml json convert config" },
+      { id: "csv", name: "CSV ↔ JSON", icon: Database, description: "Convert tabular CSV data to JSON", keywords: "csv json convert spreadsheet" },
+      { id: "slug", name: "Slug Generator", icon: Link2, description: "Create clean URL slugs from text", keywords: "slug url seo permalink text" },
+      { id: "number-base", name: "Number Base", icon: Hash, description: "Convert numbers between common bases", keywords: "binary decimal hexadecimal octal radix" }
     ]
   },
   {
@@ -284,8 +308,25 @@ function App() {
     readStorage("devdock-recent", [])
   );
   const [toast, setToast] = useState("");
-  const [profile, setProfile] = useState(() =>
-    readStorage("devdock-profile", DEFAULT_PROFILE)
+  const [profile, setProfile] = useState(() => {
+    const stored = readStorage("devdock-profile", DEFAULT_PROFILE);
+
+    return {
+      ...DEFAULT_PROFILE,
+      ...(stored && typeof stored === "object" ? stored : {}),
+      tech: Array.isArray(stored?.tech)
+        ? stored.tech.filter(Boolean)
+        : DEFAULT_PROFILE.tech
+    };
+  });
+  const [density, setDensity] = useState(() =>
+    (() => {
+      try {
+        return localStorage.getItem("devdock-density") || "comfortable";
+      } catch {
+        return "comfortable";
+      }
+    })()
   );
 
   useEffect(() => {
@@ -330,6 +371,11 @@ function App() {
   }, [profile.accent]);
 
   useEffect(() => {
+    document.documentElement.dataset.density = density;
+    localStorage.setItem("devdock-density", density);
+  }, [density]);
+
+  useEffect(() => {
     const handler = (event) => {
       if (
         (event.ctrlKey || event.metaKey) &&
@@ -360,6 +406,7 @@ function App() {
 
   const openTool = (id) => {
     setActiveTool(id);
+    setSearch("");
     setCommandOpen(false);
     setMobileNav(false);
 
@@ -384,10 +431,11 @@ function App() {
   };
 
   const active = activeTool === "profile"
-    ? {
-        name: "Profile",
-        description: "Your developer identity"
-      }
+    ? { name: "Profile", description: "Your developer identity" }
+    : activeTool === "favorites"
+    ? { name: "Favorites", description: "Your saved tools" }
+    : activeTool === "recent"
+    ? { name: "Recent", description: "Your recent tools" }
     : ALL_TOOLS.find((tool) => tool.id === activeTool);
 
   return (
@@ -437,6 +485,43 @@ function App() {
             />
           )}
 
+          {activeTool === "favorites" && (
+            <SavedToolsPage
+              title="Favorites"
+              description="Your saved developer tools, ready when you are."
+              ids={favorites}
+              openTool={openTool}
+              favorites={favorites}
+              toggleFavorite={toggleFavorite}
+              empty="Star any tool to keep it here."
+            />
+          )}
+
+          {activeTool === "recent" && (
+            <SavedToolsPage
+              title="Recent Tools"
+              description="Pick up where you left off."
+              ids={recent}
+              openTool={openTool}
+              favorites={favorites}
+              toggleFavorite={toggleFavorite}
+              empty="Your recently used tools will appear here."
+            />
+          )}
+
+          {activeTool === "settings" && (
+            <SettingsTool
+              dark={dark}
+              setDark={setDark}
+              density={density}
+              setDensity={setDensity}
+              setFavorites={setFavorites}
+              setRecent={setRecent}
+              setProfile={setProfile}
+              notify={notify}
+            />
+          )}
+
           {activeTool === "json" && <JsonTool notify={notify} />}
           {activeTool === "jwt" && <JwtTool notify={notify} />}
           {activeTool === "regex" && <RegexTool notify={notify} />}
@@ -450,6 +535,17 @@ function App() {
           {activeTool === "password" && <PasswordTool notify={notify} />}
           {activeTool === "http" && <HttpTool />}
           {activeTool === "colors" && <ColorTool notify={notify} />}
+          {activeTool === "case" && <CaseTool notify={notify} />}
+          {activeTool === "counter" && <TextCounterTool notify={notify} />}
+          {activeTool === "lorem" && <LoremTool notify={notify} />}
+          {activeTool === "qr" && <QrTool notify={notify} />}
+          {activeTool === "html" && <CodeFormatterTool language="HTML" icon={FileCode2} notify={notify} />}
+          {activeTool === "css" && <CodeFormatterTool language="CSS" icon={FileCode2} notify={notify} />}
+          {activeTool === "javascript" && <CodeFormatterTool language="JavaScript" icon={FileCode2} notify={notify} />}
+          {activeTool === "yaml" && <YamlJsonTool notify={notify} />}
+          {activeTool === "csv" && <CsvJsonTool notify={notify} />}
+          {activeTool === "slug" && <SlugTool notify={notify} />}
+          {activeTool === "number-base" && <NumberBaseTool notify={notify} />}
           {activeTool === "timer" && <FocusTimer notify={notify} />}
           {activeTool === "snippets" && <Snippets notify={notify} />}
         </div>
@@ -460,6 +556,7 @@ function App() {
           search={search}
           setSearch={setSearch}
           openTool={openTool}
+          setCommandOpen={setCommandOpen}
         />
       )}
 
@@ -478,6 +575,7 @@ function Sidebar({
   search,
   setSearch,
   favorites,
+  recent,
   openTool,
   mobileNav,
   setMobileNav,
@@ -534,6 +632,19 @@ function Sidebar({
           <span>Search tools...</span>
           <kbd>⌘K</kbd>
         </button>
+
+        <div className="nav-shortcuts">
+          <button className={`nav-item ${activeTool === "favorites" ? "active" : ""}`} onClick={() => openTool("favorites")}>
+            <Sparkles size={15} strokeWidth={1.9} />
+            <span>Favorites</span>
+            <small>{favorites.length}</small>
+          </button>
+          <button className={`nav-item ${activeTool === "recent" ? "active" : ""}`} onClick={() => openTool("recent")}>
+            <Activity size={15} strokeWidth={1.9} />
+            <span>Recent</span>
+            <small>{recent.length}</small>
+          </button>
+        </div>
 
         <nav className="nav-list">
           {filteredGroups.map((group) => (
@@ -1295,11 +1406,10 @@ function ProfilePreview({
   favorites,
   recent
 }) {
-  const links = [
-    profile.github,
-    profile.linkedin,
-    profile.portfolio
-  ].filter(Boolean);
+  const github = safeExternalUrl(profile.github);
+  const linkedin = safeExternalUrl(profile.linkedin);
+  const portfolio = safeExternalUrl(profile.portfolio);
+  const links = [github, linkedin, portfolio].filter(Boolean);
 
   return (
     <aside className="profile-preview">
@@ -1356,9 +1466,9 @@ function ProfilePreview({
 
           {links.length > 0 && (
             <div className="profile-links">
-              {profile.github && (
+              {github && (
                 <a
-                  href={profile.github}
+                  href={github}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -1367,9 +1477,9 @@ function ProfilePreview({
                 </a>
               )}
 
-              {profile.linkedin && (
+              {linkedin && (
                 <a
-                  href={profile.linkedin}
+                  href={linkedin}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -1378,9 +1488,9 @@ function ProfilePreview({
                 </a>
               )}
 
-              {profile.portfolio && (
+              {portfolio && (
                 <a
-                  href={profile.portfolio}
+                  href={portfolio}
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -2313,19 +2423,9 @@ function Base64Tool({ notify }) {
   const process = () => {
     try {
       if (mode === "encode") {
-        setOutput(
-          btoa(
-            unescape(
-              encodeURIComponent(input)
-            )
-          )
-        );
+        setOutput(encodeBase64(input));
       } else {
-        setOutput(
-          decodeURIComponent(
-            escape(atob(input.trim()))
-          )
-        );
+        setOutput(decodeBase64(input));
       }
 
       setError("");
@@ -3155,7 +3255,7 @@ function ColorTool({ notify }) {
         <input
           className="color-picker"
           type="color"
-          value={color}
+          value={rgb ? color : "#000000"}
           onChange={(event) =>
             setColor(
               event.target.value.toUpperCase()
@@ -3258,21 +3358,20 @@ function FocusTimer({ notify }) {
     const interval =
       setInterval(() => {
         setSeconds((value) => {
-          if (value <= 1) {
-            setRunning(false);
-            notify(
-              "Focus session complete"
-            );
-            return 0;
-          }
-
-          return value - 1;
+          return Math.max(value - 1, 0);
         });
       }, 1000);
 
     return () =>
       clearInterval(interval);
   }, [running]);
+
+  useEffect(() => {
+    if (running && seconds === 0) {
+      setRunning(false);
+      notify("Focus session complete");
+    }
+  }, [running, seconds, notify]);
 
   const minutes = Math.floor(
     seconds / 60
@@ -3605,13 +3704,629 @@ function Snippets({ notify }) {
   );
 }
 
+
+function SavedToolsPage({
+  title,
+  description,
+  ids,
+  openTool,
+  favorites,
+  toggleFavorite,
+  empty
+}) {
+  const items = ids
+    .map((id) => ALL_TOOLS.find((tool) => tool.id === id))
+    .filter(Boolean);
+
+  return (
+    <div className="page">
+      <div className="page-intro">
+        <div>
+          <div className="page-eyebrow">
+            <span className="eyebrow-line" />
+            DEVELOPER WORKSPACE
+          </div>
+          <h1>{title}</h1>
+          <p>{description}</p>
+        </div>
+      </div>
+
+      {items.length ? (
+        <div className="quick-grid">
+          {items.map((tool) => (
+            <ToolCard
+              key={tool.id}
+              tool={tool}
+              openTool={openTool}
+              favorites={favorites}
+              toggleFavorite={toggleFavorite}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="empty-list">
+          <Sparkles size={18} />
+          <strong>Nothing here yet</strong>
+          <span>{empty}</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function SettingsTool({
+  dark,
+  setDark,
+  density,
+  setDensity,
+  setFavorites,
+  setRecent,
+  setProfile,
+  notify
+}) {
+  const resetPreferences = () => {
+    localStorage.removeItem("devdock-theme");
+    localStorage.removeItem("devdock-density");
+    setDark(true);
+    setDensity("comfortable");
+    notify("Preferences reset");
+  };
+
+  const clearHistory = () => {
+    setRecent([]);
+    notify("Recent tools cleared");
+  };
+
+  const clearFavorites = () => {
+    setFavorites([]);
+    notify("Favorites cleared");
+  };
+
+  const resetProfile = () => {
+    setProfile(DEFAULT_PROFILE);
+    notify("Profile reset");
+  };
+
+  return (
+    <ToolShell
+      title="Settings"
+      description="Customize your DevDock workspace and local preferences."
+      icon={Settings2}
+      badge="WORKSPACE"
+    >
+      <div className="settings-stack">
+        <div className="setting-card">
+          <div>
+            <strong>Appearance</strong>
+            <span>Choose the interface theme.</span>
+          </div>
+          <div className="settings-options">
+            <button className={dark ? "selected" : ""} onClick={() => setDark(true)}>
+              <Moon size={14} /> Dark
+            </button>
+            <button className={!dark ? "selected" : ""} onClick={() => setDark(false)}>
+              <Sun size={14} /> Light
+            </button>
+          </div>
+        </div>
+
+        <div className="setting-card">
+          <div>
+            <strong>Interface density</strong>
+            <span>Control spacing across the workspace.</span>
+          </div>
+          <div className="settings-options">
+            <button className={density === "comfortable" ? "selected" : ""} onClick={() => setDensity("comfortable")}>Comfortable</button>
+            <button className={density === "compact" ? "selected" : ""} onClick={() => setDensity("compact")}>Compact</button>
+          </div>
+        </div>
+
+        <div className="setting-card">
+          <div>
+            <strong>Local processing</strong>
+            <span>Tool inputs are processed in your browser whenever possible.</span>
+          </div>
+          <span className="setting-status"><Check size={13} /> Active</span>
+        </div>
+
+        <div className="setting-card">
+          <div>
+            <strong>Data controls</strong>
+            <span>Manage local DevDock preferences.</span>
+          </div>
+          <div className="settings-actions">
+            <button className="button secondary" onClick={clearHistory}>Clear recent</button>
+            <button className="button secondary" onClick={clearFavorites}>Clear favorites</button>
+            <button className="button secondary" onClick={resetProfile}>Reset profile</button>
+            <button className="button primary" onClick={resetPreferences}>Reset preferences</button>
+          </div>
+        </div>
+      </div>
+    </ToolShell>
+  );
+}
+
+function CaseTool({ notify }) {
+  const [input, setInput] = useState("DevDock makes developer workflows faster");
+  const [mode, setMode] = useState("title");
+  const output = convertCase(input, mode);
+
+  return (
+    <ToolShell
+      title="Case Converter"
+      description="Transform text into common developer and writing cases."
+      icon={Type}
+      badge="TEXT"
+      actions={<button className="button primary" onClick={() => copyText(output, notify)}><Copy size={13} /> Copy</button>}
+    >
+      <div className="mode-tabs">
+        {[['lower','lowercase'],['upper','UPPERCASE'],['title','Title Case'],['camel','camelCase'],['snake','snake_case'],['kebab','kebab-case']].map(([id,label]) => (
+          <button key={id} className={mode === id ? "active" : ""} onClick={() => setMode(id)}>{label}</button>
+        ))}
+      </div>
+      <div className="editor-grid">
+        <EditorPanel title="INPUT" value={input} onChange={setInput} onClear={() => setInput("")} placeholder="Enter text..." />
+        <EditorPanel title="OUTPUT" value={output} onChange={() => {}} onCopy={() => copyText(output, notify)} onClear={() => {}} placeholder="Converted text..." />
+      </div>
+    </ToolShell>
+  );
+}
+
+function TextCounterTool({ notify }) {
+  const [text, setText] = useState("");
+  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  const lines = text ? text.split(/\r?\n/).length : 0;
+  const chars = text.length;
+  const noSpaces = text.replace(/\s/g, "").length;
+
+  return (
+    <ToolShell title="Text Counter" description="Measure words, characters, lines and reading metrics." icon={Type} badge="TEXT" actions={<button className="button secondary" onClick={() => { setText(""); notify("Text cleared"); }}><Trash2 size={13} /> Clear</button>}>
+      <EditorPanel title="TEXT" value={text} onChange={setText} placeholder="Paste or type text here..." />
+      <div className="stats-grid">
+        <StatCard label="Words" value={words} />
+        <StatCard label="Characters" value={chars} />
+        <StatCard label="No spaces" value={noSpaces} />
+        <StatCard label="Lines" value={lines} />
+      </div>
+    </ToolShell>
+  );
+}
+
+function StatCard({ label, value }) {
+  return <div className="stat-card"><div><strong>{value}</strong><span>{label}</span></div></div>;
+}
+
+function LoremTool({ notify }) {
+  const [count, setCount] = useState(3);
+  const [output, setOutput] = useState("");
+  const generate = () => {
+    const source = "Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat";
+    const words = source.split(" ");
+    const paragraphs = [];
+    for (let p = 0; p < count; p++) {
+      const start = (p * 31) % words.length;
+      const chunk = Array.from({ length: 45 }, (_, i) => words[(start + i) % words.length]);
+      paragraphs.push(chunk.join(" ") + ".");
+    }
+    setOutput(paragraphs.join("\n\n"));
+    notify("Lorem Ipsum generated");
+  };
+
+  return (
+    <ToolShell title="Lorem Ipsum" description="Generate clean placeholder copy for layouts and prototypes." icon={Type} badge="GENERATOR" actions={<button className="button primary" onClick={generate}><Plus size={13} /> Generate</button>}>
+      <div className="utility-card">
+        <div className="utility-card-title"><span>Paragraphs</span><code>{count}</code></div>
+        <input className="large-input" type="range" min="1" max="10" value={count} onChange={(e) => setCount(Number(e.target.value))} />
+      </div>
+      <EditorPanel title="OUTPUT" value={output} onChange={() => {}} onCopy={() => copyText(output, notify)} onClear={() => setOutput("")} placeholder="Generate placeholder text..." />
+    </ToolShell>
+  );
+}
+
+function QrTool({ notify }) {
+  const [value, setValue] = useState("https://github.com/Faizan-khan144/devdock");
+  const [generated, setGenerated] = useState("");
+  const generate = () => {
+    setGenerated(`https://api.qrserver.com/v1/create-qr-code/?size=320x320&data=${encodeURIComponent(value)}`);
+    notify("QR code generated");
+  };
+  return (
+    <ToolShell title="QR Generator" description="Generate a QR code from text, URLs or other compact data." icon={Hash} badge="GENERATOR" actions={<button className="button primary" onClick={generate}><Play size={13} /> Generate</button>}>
+      <EditorPanel title="DATA" value={value} onChange={setValue} onClear={() => { setValue(""); setGenerated(""); }} placeholder="https://example.com" />
+      <div className="qr-result">
+        {generated ? <><img src={generated} alt="Generated QR code" /><button className="button secondary" onClick={() => { const a = document.createElement("a"); a.href = generated; a.target = "_blank"; a.click(); }}><ExternalLink size={13} /> Open QR</button></> : <span>Generate a QR code to preview it here.</span>}
+      </div>
+    </ToolShell>
+  );
+}
+
+function CodeFormatterTool({ language, icon, notify }) {
+  const [input, setInput] = useState("");
+  const [output, setOutput] = useState("");
+  const format = () => {
+    try {
+      setOutput(simpleCodeFormat(input, language));
+      notify(`${language} formatted`);
+    } catch (error) {
+      setOutput(`Error: ${error.message}`);
+    }
+  };
+  return (
+    <ToolShell title={`${language} Formatter`} description={`Format ${language} code with consistent indentation and readable structure.`} icon={icon} badge="CODE" actions={<button className="button primary" onClick={format}><Play size={13} /> Format</button>}>
+      <div className="editor-grid">
+        <EditorPanel title={`INPUT.${language.toUpperCase()}`} value={input} onChange={setInput} onClear={() => setInput("")} placeholder={`Paste ${language} code here...`} />
+        <EditorPanel title={`OUTPUT.${language.toUpperCase()}`} value={output} onChange={() => {}} onCopy={() => copyText(output, notify)} onClear={() => setOutput("")} placeholder="Formatted code..." />
+      </div>
+    </ToolShell>
+  );
+}
+
+function YamlJsonTool({ notify }) {
+  const [input, setInput] = useState('name: DevDock\nversion: 2\ndescription: Developer toolkit');
+  const [mode, setMode] = useState("yaml-json");
+  const [output, setOutput] = useState("");
+  const process = () => {
+    try {
+      if (mode === "yaml-json") setOutput(JSON.stringify(parseSimpleYaml(input), null, 2));
+      else setOutput(stringifySimpleYaml(JSON.parse(input)));
+      notify("Conversion complete");
+    } catch (error) {
+      setOutput(`Error: ${error.message}`);
+    }
+  };
+  return (
+    <ToolShell title="YAML ↔ JSON" description="Convert common configuration-style YAML structures to and from JSON." icon={FileJson} badge="DATA" actions={<button className="button primary" onClick={process}><Play size={13} /> Convert</button>}>
+      <div className="mode-tabs">
+        <button className={mode === "yaml-json" ? "active" : ""} onClick={() => setMode("yaml-json")}>YAML → JSON</button>
+        <button className={mode === "json-yaml" ? "active" : ""} onClick={() => setMode("json-yaml")}>JSON → YAML</button>
+      </div>
+      <div className="editor-grid">
+        <EditorPanel title="INPUT" value={input} onChange={setInput} onClear={() => setInput("")} placeholder="Paste YAML or JSON..." />
+        <EditorPanel title="OUTPUT" value={output} onChange={() => {}} onCopy={() => copyText(output, notify)} onClear={() => setOutput("")} placeholder="Converted output..." />
+      </div>
+    </ToolShell>
+  );
+}
+
+function CsvJsonTool({ notify }) {
+  const [input, setInput] = useState("name,role\nFaizan,Developer\nDevDock,Toolkit");
+  const [mode, setMode] = useState("csv-json");
+  const [output, setOutput] = useState("");
+  const process = () => {
+    try {
+      if (mode === "csv-json") setOutput(JSON.stringify(csvToJson(input), null, 2));
+      else setOutput(jsonToCsv(JSON.parse(input)));
+      notify("CSV conversion complete");
+    } catch (error) {
+      setOutput(`Error: ${error.message}`);
+    }
+  };
+  return (
+    <ToolShell title="CSV ↔ JSON" description="Convert simple tabular CSV data to JSON arrays and back." icon={Database} badge="DATA" actions={<button className="button primary" onClick={process}><Play size={13} /> Convert</button>}>
+      <div className="mode-tabs">
+        <button className={mode === "csv-json" ? "active" : ""} onClick={() => setMode("csv-json")}>CSV → JSON</button>
+        <button className={mode === "json-csv" ? "active" : ""} onClick={() => setMode("json-csv")}>JSON → CSV</button>
+      </div>
+      <div className="editor-grid">
+        <EditorPanel title="INPUT" value={input} onChange={setInput} onClear={() => setInput("")} placeholder="Paste CSV or JSON..." />
+        <EditorPanel title="OUTPUT" value={output} onChange={() => {}} onCopy={() => copyText(output, notify)} onClear={() => setOutput("")} placeholder="Converted output..." />
+      </div>
+    </ToolShell>
+  );
+}
+
+function SlugTool({ notify }) {
+  const [input, setInput] = useState(
+    "Build impressive React websites"
+  );
+  const output = createSlug(input);
+
+  return (
+    <ToolShell
+      title="Slug Generator"
+      description="Create clean, lowercase URL slugs for pages, posts and projects."
+      icon={Link2}
+      badge="TEXT"
+      actions={
+        <button
+          className="button primary"
+          onClick={() => copyText(output, notify)}
+        >
+          <Copy size={13} />
+          Copy slug
+        </button>
+      }
+    >
+      <div className="editor-grid">
+        <EditorPanel
+          title="SOURCE TEXT"
+          value={input}
+          onChange={setInput}
+          onClear={() => setInput("")}
+          placeholder="Enter a page title..."
+        />
+
+        <EditorPanel
+          title="URL SLUG"
+          value={output}
+          onChange={() => {}}
+          onCopy={() => copyText(output, notify)}
+          onClear={() => {}}
+          placeholder="Your slug appears here..."
+        />
+      </div>
+    </ToolShell>
+  );
+}
+
+function NumberBaseTool({ notify }) {
+  const [input, setInput] = useState("255");
+  const [fromBase, setFromBase] = useState("10");
+  const parsed = parseBaseNumber(input, Number(fromBase));
+  const bases = [
+    ["2", "Binary"],
+    ["8", "Octal"],
+    ["10", "Decimal"],
+    ["16", "Hexadecimal"]
+  ];
+
+  return (
+    <ToolShell
+      title="Number Base"
+      description="Convert integers between binary, octal, decimal and hexadecimal."
+      icon={Hash}
+      badge="UTILITY"
+      actions={
+        <button
+          className="button secondary"
+          onClick={() => {
+            setInput("");
+            notify("Number cleared");
+          }}
+        >
+          <Trash2 size={13} />
+          Clear
+        </button>
+      }
+    >
+      <div className="base-controls">
+        <div className="field">
+          <label>Number</label>
+          <input
+            className="large-input"
+            value={input}
+            onChange={(event) => setInput(event.target.value)}
+            spellCheck="false"
+            placeholder="Enter a number..."
+          />
+        </div>
+
+        <div className="field">
+          <label>Input base</label>
+          <select
+            className="large-input"
+            value={fromBase}
+            onChange={(event) => setFromBase(event.target.value)}
+          >
+            <option value="2">Binary · 2</option>
+            <option value="8">Octal · 8</option>
+            <option value="10">Decimal · 10</option>
+            <option value="16">Hexadecimal · 16</option>
+          </select>
+        </div>
+      </div>
+
+      {parsed.error ? (
+        <div className="error-state inline">{parsed.error}</div>
+      ) : (
+        <div className="base-grid">
+          {bases.map(([base, label]) => (
+            <div className="base-output" key={base}>
+              <span>{label}</span>
+              <code>{parsed.value.toString(Number(base)).toUpperCase()}</code>
+              <button
+                className="editor-action"
+                onClick={() =>
+                  copyText(
+                    parsed.value.toString(Number(base)).toUpperCase(),
+                    notify
+                  )
+                }
+              >
+                <Copy size={13} />
+                Copy
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </ToolShell>
+  );
+}
+
+function convertCase(value, mode) {
+  const words = value.trim().split(/[^A-Za-z0-9]+/).filter(Boolean);
+  if (mode === "lower") return value.toLowerCase();
+  if (mode === "upper") return value.toUpperCase();
+  if (mode === "title") return words.map(w => w[0].toUpperCase() + w.slice(1).toLowerCase()).join(" ");
+  if (mode === "camel") return words.map((w, i) => i ? w[0].toUpperCase() + w.slice(1).toLowerCase() : w.toLowerCase()).join("");
+  if (mode === "snake") return words.map(w => w.toLowerCase()).join("_");
+  if (mode === "kebab") return words.map(w => w.toLowerCase()).join("-");
+  return value;
+}
+
+function createSlug(value) {
+  return value
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function parseBaseNumber(value, base) {
+  const input = value.trim();
+
+  if (!input) {
+    return { value: 0n, error: "Enter a number to convert." };
+  }
+
+  const isNegative = input.startsWith("-");
+  const digits = input.replace(/^[+-]/, "").toLowerCase();
+  const prefixes = {
+    2: "0b",
+    8: "0o",
+    16: "0x"
+  };
+  const normalized = prefixes[base] && digits.startsWith(prefixes[base])
+    ? digits.slice(2)
+    : digits;
+  const validDigits = {
+    2: /^[01]+$/,
+    8: /^[0-7]+$/,
+    10: /^\d+$/,
+    16: /^[\da-f]+$/
+  };
+
+  if (!validDigits[base].test(normalized)) {
+    return {
+      value: 0n,
+      error: `Use valid base-${base} digits only.`
+    };
+  }
+
+  try {
+    const literal = `0${base === 16 ? "x" : base === 8 ? "o" : base === 2 ? "b" : ""}${normalized}`;
+    const parsed = BigInt(literal);
+
+    return {
+      value: isNegative ? -parsed : parsed,
+      error: ""
+    };
+  } catch {
+    return { value: 0n, error: "That number is too large to convert." };
+  }
+}
+
+function simpleCodeFormat(source, language) {
+  let text = source.trim();
+  if (!text) return "";
+  if (language === "HTML") {
+    text = text.replace(/>\s*</g, "><");
+    let depth = 0;
+    return text.replace(/(<[^>]+>)/g, "$1\n").split("\n").filter(Boolean).map((line) => {
+      const trimmed = line.trim();
+      if (/^<\//.test(trimmed)) depth = Math.max(0, depth - 1);
+      const result = "  ".repeat(depth) + trimmed;
+      if (/^<[^!/][^>]*[^/]?>$/.test(trimmed) && !/<\/[^>]+>$/.test(trimmed)) depth++;
+      return result;
+    }).join("\n");
+  }
+  if (language === "CSS") {
+    return text.replace(/\s*{\s*/g, " {\n  ").replace(/;\s*/g, ";\n  ").replace(/\s*}\s*/g, "\n}\n").replace(/\n  \n/g, "\n").trim();
+  }
+  return text
+    .replace(/\s*{\s*/g, " {\n  ")
+    .replace(/;\s*/g, ";\n  ")
+    .replace(/}\s*/g, "\n}\n")
+    .replace(/\n\s*\n/g, "\n")
+    .split("\n")
+    .map((line) => line.trim())
+    .join("\n")
+    .replace(/\n{/g, " {");
+}
+
+function parseSimpleYaml(source) {
+  const result = {};
+  source.split(/\r?\n/).forEach((line) => {
+    const clean = line.replace(/#.*$/, "").trim();
+    if (!clean || !clean.includes(":")) return;
+    const index = clean.indexOf(":");
+    const key = clean.slice(0, index).trim();
+    const raw = clean.slice(index + 1).trim();
+    result[key] = yamlScalar(raw);
+  });
+  return result;
+}
+
+function yamlScalar(value) {
+  if (value === "true") return true;
+  if (value === "false") return false;
+  if (value === "null") return null;
+  if (/^-?\d+(\.\d+)?$/.test(value)) return Number(value);
+  if ((value.startsWith("[") && value.endsWith("]")) || (value.startsWith("{") && value.endsWith("}"))) {
+    try { return JSON.parse(value); } catch {}
+  }
+  return value.replace(/^['"]|['"]$/g, "");
+}
+
+function stringifySimpleYaml(value, indent = 0) {
+  if (!value || typeof value !== "object") return String(value);
+  const pad = "  ".repeat(indent);
+  return Object.entries(value).map(([key, val]) => {
+    if (val && typeof val === "object" && !Array.isArray(val)) return `${pad}${key}:\n${stringifySimpleYaml(val, indent + 1)}`;
+    if (Array.isArray(val)) return `${pad}${key}: ${JSON.stringify(val)}`;
+    return `${pad}${key}: ${val === null ? "null" : typeof val === "string" ? val : String(val)}`;
+  }).join("\n");
+}
+
+function csvToJson(source) {
+  const rows = source.trim().split(/\r?\n/).map(parseCsvLine);
+  if (!rows.length) return [];
+  const headers = rows.shift();
+  return rows.filter(row => row.some(Boolean)).map(row => Object.fromEntries(headers.map((key, index) => [key, row[index] ?? ""])));
+}
+
+function parseCsvLine(line) {
+  const result = [];
+  let value = "";
+  let quoted = false;
+  for (let i = 0; i < line.length; i++) {
+    const char = line[i];
+    if (char === '"') {
+      if (quoted && line[i + 1] === '"') { value += '"'; i++; }
+      else quoted = !quoted;
+    } else if (char === "," && !quoted) {
+      result.push(value);
+      value = "";
+    } else value += char;
+  }
+  result.push(value);
+  return result;
+}
+
+function jsonToCsv(rows) {
+  if (
+    !Array.isArray(rows) ||
+    !rows.length ||
+    rows.some(
+      (row) =>
+        !row ||
+        typeof row !== "object" ||
+        Array.isArray(row)
+    )
+  ) {
+    throw new Error("Expected a JSON array of objects.");
+  }
+
+  const headers = [...new Set(rows.flatMap(row => Object.keys(row)))];
+  const escape = (value) => {
+    const text = value == null ? "" : typeof value === "object" ? JSON.stringify(value) : String(value);
+    return /[",\n]/.test(text) ? `"${text.replace(/"/g, '""')}"` : text;
+  };
+  return [headers.join(","), ...rows.map(row => headers.map(key => escape(row[key])).join(","))].join("\n");
+}
+
 function CommandPalette({
   search,
   setSearch,
-  openTool
+  openTool,
+  setCommandOpen
 }) {
   const query =
     search.toLowerCase().trim();
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const profileCommand = {
     id: "profile",
@@ -3635,11 +4350,20 @@ function CommandPalette({
         .includes(query)
   );
 
+  useEffect(() => {
+    setActiveIndex(0);
+  }, [search]);
+
+  const selectResult = (item) => {
+    openTool(item.id);
+  };
+
   return (
     <div
       className="command-overlay"
       onClick={() => {
         setSearch("");
+        setCommandOpen(false);
       }}
     >
       <div
@@ -3659,6 +4383,29 @@ function CommandPalette({
                 event.target.value
               )
             }
+            onKeyDown={(event) => {
+              if (!results.length) return;
+
+              if (event.key === "ArrowDown") {
+                event.preventDefault();
+                setActiveIndex((index) =>
+                  (index + 1) % results.length
+                );
+              }
+
+              if (event.key === "ArrowUp") {
+                event.preventDefault();
+                setActiveIndex((index) =>
+                  (index - 1 + results.length) %
+                  results.length
+                );
+              }
+
+              if (event.key === "Enter") {
+                event.preventDefault();
+                selectResult(results[activeIndex]);
+              }
+            }}
             placeholder="Search DevDock..."
           />
 
@@ -3666,14 +4413,17 @@ function CommandPalette({
         </div>
 
         <div className="command-results">
-          {results.map((item) => {
+          {results.map((item, index) => {
             const Icon = item.icon;
 
             return (
               <button
                 key={item.id}
+                className={
+                  index === activeIndex ? "selected" : ""
+                }
                 onClick={() =>
-                  openTool(item.id)
+                  selectResult(item)
                 }
               >
                 <div className="command-result-icon">
@@ -3776,15 +4526,35 @@ function base64UrlDecode(value) {
   );
 }
 
+function encodeBase64(value) {
+  const bytes = new TextEncoder().encode(value);
+  let binary = "";
+
+  bytes.forEach((byte) => {
+    binary += String.fromCharCode(byte);
+  });
+
+  return btoa(binary);
+}
+
+function decodeBase64(value) {
+  const binary = atob(value.replace(/\s/g, ""));
+  const bytes = Uint8Array.from(binary, (char) =>
+    char.charCodeAt(0)
+  );
+
+  return new TextDecoder().decode(bytes);
+}
+
 function formatUnix(value) {
-  if (
-    typeof value !== "number"
-  ) {
+  const timestamp = Number(value);
+
+  if (!Number.isFinite(timestamp)) {
     return String(value);
   }
 
   const date = new Date(
-    value * 1000
+    timestamp * 1000
   );
 
   if (
@@ -3798,22 +4568,60 @@ function formatUnix(value) {
   return `${value} · ${date.toISOString()}`;
 }
 
+function safeExternalUrl(value) {
+  if (typeof value !== "string" || !value.trim()) {
+    return "";
+  }
+
+  try {
+    const url = new URL(value.trim());
+
+    return ["http:", "https:"].includes(url.protocol)
+      ? url.href
+      : "";
+  } catch {
+    return "";
+  }
+}
+
 function copyText(text, notify) {
   if (!text) {
     notify("Nothing to copy");
     return;
   }
 
-  navigator.clipboard
-    .writeText(text)
-    .then(() =>
-      notify(
-        "Copied to clipboard"
-      )
-    )
-    .catch(() =>
-      notify("Copy failed")
-    );
+  const fallback = () => {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.setAttribute("readonly", "");
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+    document.body.appendChild(textarea);
+    textarea.select();
+
+    let copied = false;
+
+    try {
+      copied = document.execCommand("copy");
+    } catch {
+      copied = false;
+    }
+
+    textarea.remove();
+    return copied;
+  };
+
+  if (navigator.clipboard?.writeText) {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => notify("Copied to clipboard"))
+      .catch(() =>
+        notify(fallback() ? "Copied to clipboard" : "Copy failed")
+      );
+    return;
+  }
+
+  notify(fallback() ? "Copied to clipboard" : "Copy failed");
 }
 
 function createDiff(

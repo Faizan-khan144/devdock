@@ -259,6 +259,24 @@ a:focus-visible {
   color: var(--accent);
 }
 
+.nav-shortcuts {
+  display: grid;
+  gap: 2px;
+  padding: 0 9px 10px;
+}
+
+.nav-shortcuts .nav-item {
+  height: 31px;
+}
+
+.nav-shortcuts .nav-item small {
+  min-width: 18px;
+  margin-left: auto;
+  color: var(--subtle);
+  font: 9px var(--mono);
+  text-align: right;
+}
+
 .nav-item span:not(.favorite-dot) {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -272,6 +290,13 @@ a:focus-visible {
   margin-left: auto;
   border-radius: 50%;
   background: var(--accent);
+}
+
+.sidebar-empty {
+  padding: 24px 10px;
+  color: var(--muted);
+  font-size: 10px;
+  text-align: center;
 }
 
 .sidebar-bottom {
@@ -1334,6 +1359,11 @@ a:focus-visible {
   overflow: hidden;
 }
 
+.claims-table {
+  max-height: 260px;
+  overflow: auto;
+}
+
 .claim-title {
   padding: 8px 10px;
   border-bottom: 1px solid var(--border);
@@ -1799,6 +1829,176 @@ select.input {
   accent-color: var(--accent);
 }
 
+.qr-result {
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 12px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--panel);
+  color: var(--muted);
+  text-align: center;
+  font-size: 10px;
+}
+
+.qr-result img {
+  width: min(240px, 100%);
+  height: auto;
+  aspect-ratio: 1;
+  padding: 8px;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: 12px;
+}
+
+.stat-card {
+  min-height: 88px;
+  display: flex;
+  align-items: flex-end;
+  padding: 13px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.stat-card strong,
+.stat-card span {
+  display: block;
+}
+
+.stat-card strong {
+  color: var(--text);
+  font: 600 22px var(--mono);
+  letter-spacing: -0.05em;
+}
+
+.stat-card span {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.base-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.base-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.base-output {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  padding: 13px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.base-output span {
+  grid-column: 1 / -1;
+  color: var(--subtle);
+  font: 600 8px var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.base-output code {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: var(--accent);
+  font: 11px var(--mono);
+}
+
+.settings-stack {
+  display: grid;
+  gap: 10px;
+}
+
+.setting-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--panel);
+}
+
+.setting-card > div:first-child {
+  min-width: 0;
+}
+
+.setting-card strong,
+.setting-card span {
+  display: block;
+}
+
+.setting-card strong {
+  font-size: 11px;
+}
+
+.setting-card > div:first-child span {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.settings-options,
+.settings-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.settings-options button {
+  min-height: 29px;
+  padding: 0 9px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 9px;
+}
+
+.settings-options button:hover,
+.settings-options button.selected {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.setting-status {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 5px;
+  flex: 0 0 auto;
+  color: var(--success);
+  font: 9px var(--mono);
+}
+
 .http-layout {
   display: grid;
   grid-template-columns: 340px minmax(0, 1fr);
@@ -2240,7 +2440,8 @@ select.input {
   text-align: left;
 }
 
-.command-results > button:hover {
+.command-results > button:hover,
+.command-results > button.selected {
   border-color: var(--border);
   background: var(--surface);
 }
@@ -2791,6 +2992,23 @@ select.input {
   font-size: 8px;
 }
 
+html[data-density="compact"] .nav-item {
+  height: 29px;
+}
+
+html[data-density="compact"] .nav-group {
+  margin-bottom: 11px;
+}
+
+html[data-density="compact"] .content {
+  padding-top: 22px;
+  padding-bottom: 22px;
+}
+
+html[data-density="compact"] .code-editor {
+  min-height: 320px;
+}
+
 @media (max-width: 1150px) {
   .quick-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2907,7 +3125,10 @@ select.input {
   .diff-inputs,
   .regex-controls,
   .url-fields,
-  .color-info-grid {
+  .color-info-grid,
+  .base-controls,
+  .base-grid,
+  .stats-grid {
     grid-template-columns: 1fr;
   }
 
@@ -2968,6 +3189,16 @@ select.input {
 
   .profile-preview-name-row {
     flex-direction: column;
+  }
+
+  .setting-card {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .settings-options,
+  .settings-actions {
+    justify-content: flex-start;
   }
 
   .profile-role {
