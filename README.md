@@ -1,393 +1,389 @@
 <div align="center">
 
-# ⚡ DevDock
-
-### `YOUR DEVELOPER WORKSPACE`
-
-**Build. Debug. Test. Focus. Ship.**
-
-A focused developer workspace that brings the small tools you use every day into one fast, local-first interface.
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f172a,50:2563eb,100:7c3aed&height=180&section=header&text=DEVDock&fontSize=52&fontColor=ffffff&fontAlignY=38&desc=Developer%20Workspace%20%7C%20Build%20%7C%20Debug%20%7C%20Focus&descAlignY=62&descSize=16" width="100%"/>
 
 <br>
 
-<a href="https://faizan-khan144.github.io/devdock/">
-  <img src="https://img.shields.io/badge/OPEN_DEvDOCK-111827?style=for-the-badge&logo=googlechrome&logoColor=white" />
-</a>
-&nbsp;
-<a href="https://github.com/Faizan-khan144/devdock">
-  <img src="https://img.shields.io/badge/SOURCE_CODE-2563EB?style=for-the-badge&logo=github&logoColor=white" />
-</a>
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=22&duration=2800&pause=900&color=60A5FA&center=true&vCenter=true&width=700&lines=Your+Developer+Workspace;Build+Faster.;Debug+Smarter.;Stay+Focused.;Ship+Better." alt="DevDock typing animation"/>
 
 <br><br>
 
-<img src="https://img.shields.io/github/stars/Faizan-khan144/devdock?style=flat-square&label=STARS&color=111827" />
-<img src="https://img.shields.io/github/forks/Faizan-khan144/devdock?style=flat-square&label=FORKS&color=111827" />
-<img src="https://img.shields.io/github/last-commit/Faizan-khan144/devdock?style=flat-square&label=LAST%20COMMIT&color=2563EB" />
-<img src="https://img.shields.io/github/license/Faizan-khan144/devdock?style=flat-square&label=LICENSE&color=111827" />
+<p>
+  <a href="https://faizan-khan144.github.io/devdock/">
+    <img src="https://img.shields.io/badge/%E2%96%B6%20LIVE%20DEMO-2563EB?style=for-the-badge&logo=googlechrome&logoColor=white"/>
+  </a>
+  <a href="https://github.com/Faizan-khan144/devdock">
+    <img src="https://img.shields.io/badge/%E2%96%A0%20SOURCE-111827?style=for-the-badge&logo=github&logoColor=white"/>
+  </a>
+</p>
 
-<br><br>
+<p>
+  <img src="https://img.shields.io/github/stars/Faizan-khan144/devdock?style=flat-square&logo=github&label=Stars"/>
+  <img src="https://img.shields.io/github/forks/Faizan-khan144/devdock?style=flat-square&logo=github&label=Forks"/>
+  <img src="https://img.shields.io/github/last-commit/Faizan-khan144/devdock?style=flat-square&logo=git&label=Updated"/>
+  <img src="https://img.shields.io/github/license/Faizan-khan144/devdock?style=flat-square&label=License"/>
+</p>
 
-```text
-┌──────────────────────────────────────────────────────────────┐
-│                                                              │
-│   DEVDOCK                                                    │
-│                                                              │
-│   > developer_workspace                                      │
-│   > utilities_loaded                                         │
-│   > productivity_enabled                                     │
-│   > ready_for_development                                    │
-│                                                              │
-└──────────────────────────────────────────────────────────────┘
-```
+<br>
+
+> **One workspace for the developer tools you use every day.**
 
 </div>
 
 ---
-
-# `01` — What is DevDock?
-
-DevDock is a **browser-based developer workspace** built around a simple idea:
-
-> **Stop opening ten websites for ten small tasks.**
-
-JSON formatting.
-Base64 encoding.
-UUID generation.
-Password generation.
-Regex testing.
-Color work.
-Code snippets.
-Focus sessions.
-
-Instead of scattering these workflows across different tabs, DevDock puts them inside one focused workspace.
-
-```text
-         ┌─────────────────────────────┐
-         │           DEVDOCK            │
-         └──────────────┬──────────────┘
-                        │
-          ┌─────────────┼─────────────┐
-          │             │             │
-        BUILD         DEBUG         FOCUS
-          │             │             │
-      Utilities       Testing      Productivity
-          │             │             │
-          └─────────────┼─────────────┘
-                        │
-                 ONE WORKSPACE
-```
-
-### The philosophy
-
-```text
-OPEN
-  ↓
-FIND
-  ↓
-USE
-  ↓
-SHIP
-```
-
-No unnecessary setup.
-
-No account required for the core workspace.
-
-No constant tab switching.
-
-Just tools.
-
----
-
-# `02` — The Problem
-
-Modern development involves hundreds of tiny tasks.
-
-A developer might open one website to format JSON, another to generate a UUID, another to test regex, another to encode Base64, and another to save a snippet.
-
-Each task is small.
-
-The context switching isn't.
-
-DevDock was built to reduce that friction.
-
-### Before DevDock
-
-```text
-Code Editor
-    ↓
-Search Google
-    ↓
-Open Tool
-    ↓
-Copy
-    ↓
-Return to Editor
-    ↓
-Open Another Tool
-    ↓
-Repeat
-```
-
-### With DevDock
-
-```text
-Code Editor
-    │
-    └── DevDock
-          ├── JSON
-          ├── Base64
-          ├── UUID
-          ├── Password
-          ├── Regex
-          ├── Colors
-          ├── Snippets
-          └── Focus
-```
-
-**One workspace. Less context switching. More building.**
-
----
-
-# `03` — Core Arsenal
-
-DevDock is built around a collection of practical developer utilities.
-
-| Utility        | What it does                      |
-| -------------- | --------------------------------- |
-| `JSON Toolkit` | Format, validate and inspect JSON |
-| `Base64`       | Encode and decode Base64          |
-| `UUID`         | Generate UUIDs instantly          |
-| `Password`     | Generate random passwords         |
-| `Regex`        | Test regular expressions          |
-| `Color Lab`    | Work with colors and color values |
-| `Snippets`     | Save and reuse code               |
-| `Focus Timer`  | Run focused development sessions  |
-
-The goal isn't to add random utilities.
-
-The goal is to add tools that developers can actually use.
-
----
-
-# `04` — Built for the Workflow
-
-## ⚡ Fast
-
-DevDock is designed around quick interactions.
-
-Open the workspace.
-
-Find the tool.
-
-Do the task.
-
-Go back to coding.
-
----
-
-## 🧠 Focused
-
-The interface avoids unnecessary visual noise.
-
-No giant dashboards.
-
-No excessive animations.
-
-No complicated setup.
-
-The tool is the interface.
-
----
-
-## 💾 Local-first
-
-Where possible, functionality runs directly in the browser.
-
-Local preferences and saved data can be persisted through browser storage.
-
-```text
-USER
-  │
-  ▼
-DEVDOCK
-  │
-  ├── React
-  │
-  ├── Browser APIs
-  │
-  └── Local Storage
-          │
-          ▼
-      LOCAL DATA
-```
-
----
-
-## 🖥 Responsive
-
-DevDock is designed to work across desktop, tablet, and smaller screens.
-
----
-
-## ⌨ Keyboard-friendly
-
-Developer tools should feel fast.
-
-DevDock includes quick navigation and keyboard-oriented workflows where supported.
-
-```text
-Ctrl / Cmd + K
-      ↓
-SEARCH
-      ↓
-SELECT TOOL
-      ↓
-WORK
-```
-
----
-
-# `05` — Interface
-
-The workspace is intentionally structured around a simple hierarchy.
-
-```text
-┌──────────────────────────────────────────────────────────────┐
-│ DEVDOCK                              SEARCH      THEME        │
-├────────────────┬─────────────────────────────────────────────┤
-│                │                                             │
-│  OVERVIEW      │                                             │
-│                │              ACTIVE TOOL                     │
-│  JSON          │                                             │
-│  BASE64        │                                             │
-│  UUID          │                                             │
-│  PASSWORD      │                                             │
-│  REGEX         │                                             │
-│  COLORS        │                                             │
-│  SNIPPETS      │                                             │
-│  FOCUS         │                                             │
-│                │                                             │
-└────────────────┴─────────────────────────────────────────────┘
-```
-
-The interface is designed to keep the user's attention on the active task.
-
----
-
-# `06` — Global Search
-
-When you have multiple tools, finding them matters.
-
-DevDock includes global tool search so you can jump directly to what you need.
-
-```text
-┌─────────────────────────────────────┐
-│ > Search tools...                   │
-├─────────────────────────────────────┤
-│                                     │
-│   JSON                              │
-│   Base64                            │
-│   UUID                              │
-│   Password                          │
-│   Regex                             │
-│   Color Lab                         │
-│   Snippets                          │
-│   Focus Timer                       │
-│                                     │
-└─────────────────────────────────────┘
-```
-
-Instead of digging through menus:
-
-**Search → Enter → Work.**
-
----
-
-# `07` — Themes
-
-DevDock supports both light and dark interfaces.
-
-Your theme preference is persisted locally, allowing the workspace to maintain your preferred appearance between sessions.
-
-```text
-LIGHT MODE
-    │
-    └── Clean / Bright / Minimal
-
-DARK MODE
-    │
-    └── Focused / Low-light / Developer
-```
-
----
-
-# `08` — Architecture
-
-DevDock is structured as a React application with a central workspace and modular tools.
-
-```text
-                         DEVDOCK
-                            │
-                    ┌───────┴───────┐
-                    │   APP SHELL   │
-                    └───────┬───────┘
-                            │
-          ┌─────────────────┼─────────────────┐
-          │                 │                 │
-       SIDEBAR            TOPBAR          WORKSPACE
-          │                 │                 │
-          │                 │        ┌────────┴────────┐
-          │                 │        │                 │
-          │                 │    DEVELOPER        PRODUCTIVITY
-          │                 │        │                 │
-          │                 │    ┌───┴────┐       ┌────┴─────┐
-          │                 │    │        │       │          │
-          │                 │   JSON    UUID   SNIPPETS   TIMER
-          │                 │   Base64  Regex
-          │                 │   Password Colors
-          │                 │
-          └─────────────────┴──────────────────────────────┐
-                                                           │
-                                                     LOCAL STORAGE
-```
-
-The modular structure makes it possible to add new utilities without redesigning the entire application.
-
----
-
-# `09` — Tech Stack
 
 <div align="center">
 
-<img src="https://skillicons.dev/icons?i=react,vite,js,html,css,git,github" />
+### ◈ THE DEVELOPER COMMAND CENTER ◈
+
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│  faizan@devdock ~ $ launch workspace                                │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│   BUILD                 DEBUG                  FOCUS                 │
+│                                                                      │
+│   JSON                  REGEX                  TIMER                 │
+│   UUID                  BASE64                 SNIPPETS              │
+│   COLOR                 PASSWORD               WORKFLOW              │
+│                                                                      │
+│                         ┌──────────────┐                             │
+│                         │   DEVDock    │                             │
+│                         │   ONLINE ✓   │                             │
+│                         └──────────────┘                             │
+│                                                                      │
+│   $ tools ready                $ workspace ready                    │
+│   $ productivity mode          $ ship something                     │
+│                                                                      │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 </div>
 
-### Core
+---
+
+## ⚡ What is DevDock?
+
+**DevDock** is a focused browser-based developer workspace built to keep useful development utilities in one place.
+
+Instead of opening multiple websites whenever I need to test JSON, encode Base64, generate a UUID, check a regex, create a password, pick a color, manage snippets, or run a focus session — DevDock puts those workflows together inside one interface.
+
+### The idea is simple:
 
 ```text
-React
-Vite
-JavaScript
-HTML5
-CSS3
-```
-
-### Supporting
-
-```text
-Lucide Icons
-Browser APIs
-Local Storage
-Git
-GitHub
-GitHub Pages
+                    ┌─────────────────┐
+                    │     DEVDock     │
+                    │ Developer Hub   │
+                    └────────┬────────┘
+                             │
+             ┌───────────────┼───────────────┐
+             ▼               ▼               ▼
+          BUILD           DEBUG           FOCUS
+             │               │               │
+       ┌──────┴──────┐  ┌─────┴──────┐  ┌─────┴──────┐
+       │ JSON        │  │ Regex      │  │ Timer      │
+       │ UUID        │  │ Base64     │  │ Snippets   │
+       │ Password    │  │ Color      │  │ Workspace  │
+       └─────────────┘  └────────────┘  └────────────┘
 ```
 
 ---
 
-# `10` — Project Structure
+# 🧊 Inside DevDock
+
+<div align="center">
+
+|       🧱 BUILD      |   🛠 DEBUG   |     🎯 FOCUS    |
+| :-----------------: | :----------: | :-------------: |
+|     JSON Toolkit    | Regex Tester |   Focus Timer   |
+|    UUID Generator   | Base64 Tools | Snippet Manager |
+|  Password Generator |   Color Lab  |    Workspace    |
+| Developer Utilities |  Validation  |   Productivity  |
+
+</div>
+
+---
+
+## 🧰 Tool Arsenal
+
+<table>
+<tr>
+<td width="50%">
+
+### `01` JSON Toolkit
+
+Format, inspect and work with JSON without leaving the workspace.
+
+**Built for:**
+API responses · configuration · debugging
+
+</td>
+<td width="50%">
+
+### `02` Base64
+
+Quick Base64 encoding and decoding directly in the browser.
+
+**Built for:**
+Data transformation · testing · development
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+### `03` UUID Generator
+
+Generate unique UUID values instantly.
+
+**Built for:**
+IDs · APIs · databases · development
+
+</td>
+<td>
+
+### `04` Password Generator
+
+Create secure random passwords with configurable options.
+
+**Built for:**
+Testing · credentials · development workflows
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+### `05` Regex Tester
+
+Test regular expressions against text quickly.
+
+**Built for:**
+Validation · parsing · pattern testing
+
+</td>
+<td>
+
+### `06` Color Lab
+
+Experiment with colors and generate useful values while designing interfaces.
+
+**Built for:**
+Frontend · UI · design systems
+
+</td>
+</tr>
+
+<tr>
+<td>
+
+### `07` Snippets
+
+Keep frequently used pieces of code close to the rest of your development workflow.
+
+**Built for:**
+Reusable code · productivity · speed
+
+</td>
+<td>
+
+### `08` Focus Timer
+
+A dedicated focus mode for development sessions.
+
+**Built for:**
+Deep work · Pomodoro · productivity
+
+</td>
+</tr>
+</table>
+
+---
+
+# 🧠 The Philosophy
+
+<div align="center">
+
+```text
+                 LESS TAB SWITCHING
+                        │
+                        ▼
+              ┌───────────────────┐
+              │      DEVDock       │
+              └───────────────────┘
+                 │       │       │
+                 ▼       ▼       ▼
+               BUILD   DEBUG   FOCUS
+                 │       │       │
+                 └───────┼───────┘
+                         ▼
+                       SHIP
+```
+
+### Fast → Local → Focused → Useful
+
+DevDock isn't trying to replace an IDE.
+
+It's designed to handle the **small developer tasks around your IDE** without constantly jumping between random browser tabs.
+
+---
+
+# 🖥️ Interface
+
+<div align="center">
+
+```text
+╭────────────────────────────────────────────────────────────────────╮
+│  DEVDock                                      ◐ Theme    ⌕ Search   │
+├──────────────────┬─────────────────────────────────────────────────┤
+│                  │                                                 │
+│  ◉ Overview      │                 WORKSPACE                       │
+│                  │                                                 │
+│  ◷ Focus Timer   │     ┌──────────┐ ┌──────────┐ ┌──────────┐      │
+│                  │     │   JSON   │ │  BASE64  │ │   UUID   │      │
+│  ◈ Snippets      │     └──────────┘ └──────────┘ └──────────┘      │
+│                  │                                                 │
+│  {} JSON         │     ┌──────────┐ ┌──────────┐ ┌──────────┐      │
+│                  │     │  REGEX   │ │ PASSWORD │ │  COLOR   │      │
+│  ◇ Base64        │     └──────────┘ └──────────┘ └──────────┘      │
+│                  │                                                 │
+│  # UUID          │              QUICK ACCESS                       │
+│                  │     [ Recent ] [ Favorites ] [ Snippets ]       │
+│  ⚡ Password     │                                                 │
+│                  │                                                 │
+│  / Regex         │                                                 │
+│                  │                                                 │
+│  ● Color Lab     │                                                 │
+│                  │                                                 │
+╰──────────────────┴─────────────────────────────────────────────────╯
+```
+
+</div>
+
+---
+
+# 🏗️ Architecture
+
+```mermaid
+flowchart TD
+    A["DEVDock"] --> B["React Application"]
+
+    B --> C["Workspace"]
+    B --> D["Tool System"]
+    B --> E["Persistence"]
+
+    C --> C1["Overview"]
+    C --> C2["Focus Timer"]
+    C --> C3["Snippets"]
+
+    D --> D1["JSON"]
+    D --> D2["Base64"]
+    D --> D3["UUID"]
+    D --> D4["Password"]
+    D --> D5["Regex"]
+    D --> D6["Color"]
+
+    E --> E1["Local Storage"]
+    E --> E2["Theme"]
+    E --> E3["User Data"]
+```
+
+---
+
+# ⚙️ Tech Stack
+
+<div align="center">
+
+<img src="https://skillicons.dev/icons?i=react,vite,js,html,css,github,git" />
+
+<br><br>
+
+<img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"/>
+<img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white"/>
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=111827"/>
+<img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white"/>
+<img src="https://img.shields.io/badge/Lucide-Icons-F97316?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/LocalStorage-Browser%20API-111827?style=for-the-badge"/>
+
+</div>
+
+---
+
+# 🚀 Why DevDock?
+
+<table>
+<tr>
+<td align="center" width="25%">
+
+### ⚡
+
+**FAST**
+
+No unnecessary setup.
+Open and use.
+
+</td>
+
+<td align="center" width="25%">
+
+### 🔒
+
+**LOCAL-FIRST**
+
+Useful data stays
+in the browser.
+
+</td>
+
+<td align="center" width="25%">
+
+### 🎯
+
+**FOCUSED**
+
+Small tools.
+One workspace.
+
+</td>
+
+<td align="center" width="25%">
+
+### ⌨️
+
+**KEYBOARD-FRIENDLY**
+
+Built around
+developer workflows.
+
+</td>
+</tr>
+</table>
+
+---
+
+# 📊 Developer Activity
+
+<div align="center">
+
+<img src="https://github-readme-stats.vercel.app/api?username=Faizan-khan144&show_icons=true&hide_border=true&theme=transparent&rank_icon=github" height="165"/>
+
+<img src="https://streak-stats.demolab.com?user=Faizan-khan144&hide_border=true&theme=transparent" height="165"/>
+
+</div>
+
+<br>
+
+<div align="center">
+
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Faizan-khan144&layout=compact&hide_border=true&theme=transparent&langs_count=8" height="165"/>
+
+</div>
+
+---
+
+# 🧬 Project Structure
 
 ```text
 devdock/
@@ -399,19 +395,19 @@ devdock/
 ├── public/
 │
 ├── src/
-│   ├── main.jsx
-│   ├── styles.css
+│   ├── components/
+│   │   ├── Overview.jsx
+│   │   ├── FocusTimer.jsx
+│   │   ├── Snippets.jsx
+│   │   ├── JsonTool.jsx
+│   │   ├── Base64Tool.jsx
+│   │   ├── UuidTool.jsx
+│   │   ├── PasswordTool.jsx
+│   │   ├── RegexTool.jsx
+│   │   └── ColorLab.jsx
 │   │
-│   └── components/
-│       ├── Overview
-│       ├── FocusTimer
-│       ├── Snippets
-│       ├── JsonTool
-│       ├── Base64Tool
-│       ├── UuidTool
-│       ├── PasswordTool
-│       ├── RegexTool
-│       └── ColorLab
+│   ├── main.jsx
+│   └── styles.css
 │
 ├── index.html
 ├── package.json
@@ -421,299 +417,261 @@ devdock/
 
 ---
 
-# `11` — Getting Started
+# 🔍 Global Search
 
-Want to run DevDock locally?
+One of the most important parts of DevDock is keeping navigation fast.
 
-### Clone
+Instead of manually looking through every tool:
+
+```text
+⌘ / CTRL + K
+
+        ↓
+
+┌───────────────────────────────────────┐
+│ Search DevDock...                     │
+├───────────────────────────────────────┤
+│ JSON Toolkit                          │
+│ Base64                                │
+│ UUID Generator                        │
+│ Password Generator                    │
+│ Regex Tester                          │
+│ Color Lab                             │
+│ Snippets                              │
+│ Focus Timer                           │
+└───────────────────────────────────────┘
+```
+
+Find the tool.
+
+Open it.
+
+Get back to coding.
+
+---
+
+# 🌗 Theme System
+
+DevDock supports theme switching with the selected preference persisted locally.
+
+```text
+                    THEME
+                      │
+              ┌───────┴───────┐
+              ▼               ▼
+           LIGHT             DARK
+              │               │
+              └───────┬───────┘
+                      ▼
+                Local Storage
+                      │
+                      ▼
+                 Next Visit
+```
+
+No account required.
+
+No backend required.
+
+No unnecessary complexity.
+
+---
+
+# 🔐 Privacy
+
+DevDock is designed around a local-first approach.
+
+Sensitive utility inputs such as generated passwords or developer data are not sent to a DevDock backend.
+
+The application relies on browser capabilities such as:
+
+* Local Storage
+* Clipboard APIs
+* Browser-based processing
+* Client-side JavaScript
+
+That means the workspace can remain lightweight and fast.
+
+---
+
+# 📈 Development Roadmap
+
+```text
+PHASE 01 ──────────────────────────────── COMPLETE ✓
+
+Core Workspace
+├── Tool navigation
+├── Overview
+├── JSON tools
+├── Base64
+├── UUID
+├── Password generator
+├── Regex
+├── Color Lab
+├── Snippets
+└── Focus Timer
+
+
+PHASE 02 ──────────────────────────────── IN PROGRESS ◉
+
+Power Features
+├── Command Palette
+├── Better workspace dashboard
+├── Advanced snippet management
+├── Request Builder
+└── Developer Playground
+
+
+PHASE 03 ──────────────────────────────── PLANNED ○
+
+DevDock 2.0
+├── More developer utilities
+├── Workspace customization
+├── Better keyboard navigation
+├── Productivity analytics
+└── More powerful developer workflows
+```
+
+---
+
+# 🧪 Local Development
+
+Clone the repository:
 
 ```bash
 git clone https://github.com/Faizan-khan144/devdock.git
+```
+
+Enter the project:
+
+```bash
 cd devdock
 ```
 
-### Install dependencies
+Install dependencies:
 
 ```bash
 npm install
 ```
 
-### Start development server
+Start development:
 
 ```bash
 npm run dev
 ```
 
-### Build production version
+Build for production:
 
 ```bash
 npm run build
 ```
 
-### Preview production build
-
-```bash
-npm run preview
-```
-
-Then open the local development URL shown by Vite.
-
 ---
 
-# `12` — Keyboard Workflow
+# 🌍 Deployment
 
-| Action       | Shortcut         |
-| ------------ | ---------------- |
-| Search tools | `Ctrl / Cmd + K` |
-| Copy output  | `Ctrl / Cmd + C` |
-| Navigate     | Mouse / Keyboard |
-| Theme        | Theme control    |
-
-> Shortcut availability can depend on the active browser and tool.
-
----
-
-# `13` — Privacy
-
-DevDock follows a simple principle:
-
-> **Developer utilities should not need your data to be useful.**
-
-Where functionality can reasonably run inside the browser, DevDock processes it client-side.
-
-The core workspace does not require an account.
-
-This keeps the experience lightweight and avoids unnecessary infrastructure for simple developer tasks.
-
----
-
-# `14` — Design Principles
-
-DevDock isn't designed to be flashy just for the sake of being flashy.
-
-Every part of the interface follows a few principles.
+DevDock is deployed using **GitHub Pages**.
 
 ```text
-01 ─ SIMPLE
-
-Remove unnecessary complexity.
-
-
-02 ─ FAST
-
-Get from idea to result quickly.
-
-
-03 ─ FOCUSED
-
-Keep the interface quiet.
-
-
-04 ─ USEFUL
-
-Build features that solve real problems.
-
-
-05 ─ LOCAL-FIRST
-
-Prefer browser-side processing whenever practical.
-
-
-06 ─ EXTENSIBLE
-
-Make it easy to add the next useful tool.
+LOCAL DEVELOPMENT
+       │
+       ▼
+     VITE
+       │
+       ▼
+   PRODUCTION
+       │
+       ▼
+ GITHUB ACTIONS
+       │
+       ▼
+ GITHUB PAGES
+       │
+       ▼
+   DEVDock LIVE
 ```
+
+### Live
+
+**https://faizan-khan144.github.io/devdock/**
 
 ---
 
-# `15` — Roadmap
-
-### Completed
-
-```text
-[x] Developer workspace
-[x] App shell
-[x] Global tool search
-[x] JSON toolkit
-[x] Base64 tools
-[x] UUID generator
-[x] Password generator
-[x] Regex tester
-[x] Color Lab
-[x] Snippets
-[x] Focus Timer
-[x] Light / Dark themes
-[x] Local persistence
-[x] Responsive interface
-[x] GitHub Pages deployment
-```
-
-### In Development
-
-```text
-[ ] Advanced snippet management
-[ ] Workspace import / export
-[ ] More developer utilities
-[ ] Better keyboard navigation
-[ ] Advanced JSON inspection
-```
-
-### Future
-
-```text
-[ ] API Request Builder
-[ ] Developer Playground
-[ ] Advanced Diff Tool
-[ ] JWT Toolkit
-[ ] Custom keyboard shortcuts
-[ ] Workspace customization
-[ ] More productivity tools
-```
-
----
-
-# `16` — What's Next?
-
-DevDock started with a simple problem:
-
-**I was tired of switching between websites for small developer tasks.**
-
-The current version solves part of that problem.
-
-The next step is turning DevDock into a more complete developer workspace.
-
-Some of the ideas I want to explore include:
-
-### Command Palette 2.0
-
-A faster keyboard-first way to navigate tools and actions.
-
-### API Request Builder
-
-Create and test HTTP requests without leaving the workspace.
-
-### Developer Playground
-
-Experiment with code and small ideas in an isolated environment.
-
-### Advanced Snippets
-
-Search, organize, edit, import, and export reusable snippets.
-
-### Workspace Customization
-
-Give developers more control over how their workspace is organized.
-
-The long-term vision is simple:
-
-```text
-EDITOR
-   │
-   ├───────────────┐
-   │               │
-   ▼               ▼
-CODE            DEVDOCK
-                 │
-        ┌────────┼────────┐
-        │        │        │
-      BUILD    DEBUG    FOCUS
-        │        │        │
-        └────────┼────────┘
-                 │
-                 ▼
-               SHIP
-```
-
----
-
-# `17` — Contributing
-
-Contributions and ideas are welcome.
-
-If you have an idea for a useful developer utility:
-
-```bash
-git checkout -b feature/new-tool
-```
-
-Build your improvement, test it locally, commit your changes, and open a pull request.
-
-```bash
-git add .
-git commit -m "add new developer tool"
-git push origin feature/new-tool
-```
-
----
-
-# `18` — Support
-
-If DevDock is useful to you, consider giving the repository a ⭐.
-
-It helps the project get discovered by other developers and motivates me to keep improving it.
+# 🧑‍💻 Built By
 
 <div align="center">
 
-<a href="https://github.com/Faizan-khan144/devdock">
-  <img src="https://img.shields.io/badge/⭐_STAR_DEVDOCK-111827?style=for-the-badge&logo=github&logoColor=white" />
-</a>
-
-</div>
-
----
-
-# `19` — Developer
-
-<div align="center">
+<img src="https://github.com/Faizan-khan144.png" width="110" style="border-radius:50%"/>
 
 ### Muhammad Faizan Khan
 
 **Frontend Developer · MERN Stack Learner · AI with Python Learner**
 
-Building modern interfaces, experimenting with developer tools, and turning ideas into working products.
+Building modern interfaces, experimenting with useful developer tools, and turning ideas into real projects.
 
 <br>
 
 <a href="https://github.com/Faizan-khan144">
-  <img src="https://img.shields.io/badge/GitHub-111827?style=for-the-badge&logo=github&logoColor=white" />
+<img src="https://img.shields.io/badge/GitHub-Faizan--khan144-111827?style=for-the-badge&logo=github"/>
 </a>
-&nbsp;
+
 <a href="https://faizan-portfolio-kappa.vercel.app/">
-  <img src="https://img.shields.io/badge/Portfolio-2563EB?style=for-the-badge&logo=vercel&logoColor=white" />
+<img src="https://img.shields.io/badge/Portfolio-Visit-2563EB?style=for-the-badge&logo=vercel&logoColor=white"/>
 </a>
 
 </div>
 
 ---
 
-# `20` — License
+# 🤝 Contributing
 
-DevDock is released under the **MIT License**.
+Found something that can be improved?
 
-See [`LICENSE`](LICENSE) for details.
+Have an idea for a developer utility?
+
+Want to make DevDock better?
+
+Fork the repository, create a branch, make your changes, and open a pull request.
+
+```bash
+git checkout -b feature/your-feature
+git add .
+git commit -m "Add your feature"
+git push origin feature/your-feature
+```
+
+Then open a pull request.
+
+---
+
+# ⭐ Support
+
+If DevDock is useful to you:
+
+<div align="center">
+
+### ⭐ Star the repository
+
+### 🍴 Fork it
+
+### 🛠️ Build something with it
+
+### 🚀 Share it with another developer
+
+</div>
 
 ---
 
 <div align="center">
 
-```text
-╔══════════════════════════════════════════════════════════╗
-║                                                          ║
-║                      DEVDOCK                             ║
-║                                                          ║
-║              BUILD  •  DEBUG  •  SHIP                  ║
-║                                                          ║
-║          One workspace. Less context switching.         ║
-║                                                          ║
-╚══════════════════════════════════════════════════════════╝
-```
+## `BUILD → DEBUG → FOCUS → SHIP`
 
 <br>
 
-**Built with React. Designed for developers.**
+<img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=600&size=16&duration=2500&pause=1000&color=818CF8&center=true&vCenter=true&width=600&lines=Developer+tools%2C+without+the+tab+chaos.;Stay+in+the+flow.;Keep+building.;Ship+better." alt="Footer typing animation"/>
 
-<br>
+<br><br>
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:111827,100:2563eb&height=120&section=footer" width="100%" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:7c3aed,50:2563eb,100:0f172a&height=120&section=footer" width="100%"/>
 
 </div>
